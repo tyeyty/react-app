@@ -13,7 +13,7 @@ export default function AuthForm() {
     setLoading(true);
     setMessage('');
 
-    const { data, error } = isLogin
+    const { error } = isLogin
       ? await supabase.auth.signInWithPassword({ email, password })
       : await supabase.auth.signUp({ email, password });
 
