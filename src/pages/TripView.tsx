@@ -1,7 +1,7 @@
 // src/pages/TripView.tsx
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "../lib/supabaseClient"; // 상대경로로 직접
 import { MapPin } from "lucide-react";
 
 type Trip = {
