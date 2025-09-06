@@ -25,7 +25,7 @@ export default function TripListPage() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-white p-4">
+    <div className="lg:w-[1312px] flex flex-col items-center justify-center bg-white p-4">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">GH's Portfolio Site<br></br>Trips</h1>
       </div>      

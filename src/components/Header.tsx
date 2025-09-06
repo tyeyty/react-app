@@ -51,27 +51,32 @@ export default function Header() {
           </div>
 
           {/* 우측 메뉴 */}
-          <nav className="hidden md:flex space-x-6 items-center">
-            <a href="/" className="text-gray-700 ml-2 hover:text-gray-900">
-              Home
-            </a>
-            <a href="#about" className="text-gray-700 ml-2 hover:text-gray-900">
-              About
-            </a>
-            <a href="/trips" className="text-gray-700 ml-2 hover:text-gray-900">
-              Trips
-            </a>
-            <a href="#" className="text-gray-700 ml-2 hover:text-gray-900">
-              Board
-            </a>
-            <a href="Shop" className="text-gray-700 ml-2 hover:text-gray-900">
-              Shop
-            </a>
-            <a href="Shop" className="text-gray-700 ml-2 hover:text-gray-900">
-              Mypage
-            </a>                                   
-            <a href="/messages" className="text-gray-700 ml-2 hover:text-gray-900">쪽지관리</a>
-
+          <nav className="hidden md:flex items-center">
+            <div className="space-x-6">
+              <a href="/" className="text-blue-700 ml-2 hover:text-blue-900">
+                Home
+              </a>
+              <a href="/about" className="text-blue-700 ml-2 hover:text-blue-900">
+                About
+              </a>
+              <a href="/trips" className="text-blue-700 ml-2 hover:text-blue-900">
+                Trips
+              </a>
+              <a href="/board" className="text-blue-700 ml-2 hover:text-blue-900">
+                Board
+              </a>
+              <a href="/shop" className="text-blue-700 ml-2 hover:text-blue-900">
+                Shop
+              </a>
+            </div>
+            <div className="space-x-2 pl-2 text-gray-600">
+              <span className="text-xs"><strong>{user.email}</strong>님 환영합니다</span>  
+              <a href="/mypage" className="text-gray-600 ml-2 hover:text-gray-900 text-xs">
+                Mypage
+              </a>                                               
+              <a href="/messages" className="text-gray-700 hover:text-gray-900 text-xs">쪽지관리</a>
+            </div>
+            
             {/* 로그인/로그아웃 */}
             {user ? (
               <button

@@ -7,6 +7,7 @@ import TripView from "./pages/TripView";
 import TripListPage from "./pages/TripListPage";
 import TripDetailPage from "./pages/TripDetailPage";
 import MainLayout from "./layouts/MainLayout";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         {/* 나머지 페이지는 공통 Layout 사용 */}
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
           <Route path="/tripview" element={<TripView />} />
           <Route path="/trips" element={<TripListPage />} />
           <Route path="/trips/:id" element={<TripDetailPage />} />
