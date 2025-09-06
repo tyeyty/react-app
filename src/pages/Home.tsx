@@ -5,14 +5,17 @@ export default function Home() {
   const [toDo, setToDo] = useState<string>("");
   const [toDos, setToDos] = useState<string[]>([]);
 
-  const onChange = (event) => setToDo(event.target.value);
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setToDo(event.target.value);
+  };
 
-  const onSubmit = (event) => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (toDo === "") return;
     setToDos((currentArray) => [toDo, ...currentArray]);
     setToDo("");
   };
+
 
   const skills = [
   { name: 'React & PHP', level: 100, experience: 4 },
