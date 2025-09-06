@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { supabase } from "../lib/supabaseClient";
 
 export default function Home() {
   const [toDo, setToDo] = useState<string>("");
