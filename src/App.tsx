@@ -8,6 +8,9 @@ import TripListPage from "./pages/TripListPage";
 import TripDetailPage from "./pages/TripDetailPage";
 import MainLayout from "./layouts/MainLayout";
 import About from "./pages/About";
+import BoardListPage from "./pages/BoardListPage";
+import MyPage from "./pages/MyPage"; 
+
 
 function App() {
   return (
@@ -24,6 +27,8 @@ function App() {
           <Route path="/tripview" element={<TripView />} />
           <Route path="/trips" element={<TripListPage />} />
           <Route path="/trips/:id" element={<TripDetailPage />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/board" element={<BoardListPage />} />
         </Route>
       </Routes>
     </Router>

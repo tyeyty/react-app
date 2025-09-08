@@ -69,31 +69,35 @@ export default function Header() {
                 Shop
               </a>
             </div>
-            {user && (
-              <div className="space-x-2 pl-2">
-                <span className="text-xs"><strong>{user.email}</strong>님 환영합니다</span>  
-                <a href="/mypage" className="text-gray-600 ml-2 hover:text-gray-900 text-xs">
-                  Mypage
-                </a>                                               
+
+            {user ? (
+              <div className="flex items-center space-x-2 pl-2">
+                <span className="text-xs">
+                    <strong>{user.user_metadata?.name || user.email}</strong>님 환영합니다
+                </span>
+                <a href="/mypage" className="text-gray-600 ml-2 hover:text-gray-900 text-xs"> Mypage</a> 
                 <a href="/messages" className="text-gray-700 hover:text-gray-900 text-xs">쪽지관리</a>
+                <button
+                  onClick={() => supabase.auth.signOut()}
+                  className="ml-2 px-3 py-1 border rounded text-gray-700 hover:bg-gray-100 text-xs"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <a
+                  href="/login"
+                  className="ml-2 px-3 py-1 border rounded text-gray-700 hover:bg-gray-100 text-xs">
+                  Login
+                </a>
+                <a
+                  href="/signup"
+                  className="ml-2 px-3 py-1 border rounded text-gray-700 hover:bg-gray-100 text-xs">
+                  Signup
+                </a>
               </div>
             )}
-
-            
-            {/* 로그인/로그아웃 */}
-            {user ? (
-              <button
-                onClick={() => supabase.auth.signOut()}
-                className="ml-2 px-3 py-1 border rounded text-gray-700 hover:bg-gray-100 text-xs"
-              >
-                Logout
-              </button>
-            ) : (
-              <a href="/login" className="ml-2 px-3 py-1 border rounded text-gray-700 hover:bg-gray-100 text-xs">
-                Login
-              </a>
-            )}
-
           </nav>
 
           {/* 모바일 햄버거 */}

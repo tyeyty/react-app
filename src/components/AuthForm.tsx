@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabaseClient';
 
 export default function AuthForm() {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState(''); // 닉네임/이름 추가
   const [password, setPassword] = useState('');
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -13,9 +14,26 @@ export default function AuthForm() {
     setLoading(true);
     setMessage('');
 
-    const { error } = isLogin
-      ? await supabase.auth.signInWithPassword({ email, password })
-      : await supabase.auth.signUp({ email, password });
+    let error;
+
+    if (isLogin) {
+      // 로그인
+      const { error: signInError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+      error = signInError;
+    } else {
+      // 회원가입 (user_metadata.name 저장)
+      const { error: signUpError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: { name },
+        },
+      });
+      error = signUpError;
+    }
 
     if (error) {
       setMessage(error.message);
@@ -32,6 +50,16 @@ export default function AuthForm() {
         {isLogin ? '로그인' : '회원가입'}
       </h2>
       <form onSubmit={handleSubmit} className="space-y-4">
+        {!isLogin && (
+          <input
+            className="w-full border px-4 py-2 rounded"
+            type="text"
+            placeholder="이름 / 닉네임"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        )}
         <input
           className="w-full border px-4 py-2 rounded"
           type="email"

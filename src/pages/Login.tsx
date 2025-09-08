@@ -28,13 +28,13 @@ export default function Login() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <form onSubmit={handleLogin} className="bg-white p-8 rounded shadow-md w-full max-w-sm">
-        <h2 className="text-2xl font-bold mb-6 text-center">로그인</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
 
         {errorMsg && <p className="text-red-500 text-sm mb-4">{errorMsg}</p>}
 
         <input
           type="email"
-          placeholder="이메일"
+          placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full mb-4 px-4 py-2 border rounded"
@@ -42,7 +42,7 @@ export default function Login() {
         />
         <input
           type="password"
-          placeholder="비밀번호"
+          placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full mb-6 px-4 py-2 border rounded"
@@ -51,7 +51,7 @@ export default function Login() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          className="w-full border bg-blue-600 text-blue-600 py-2 rounded hover:bg-blue-700 transition"
         >
           로그인
         </button>
