@@ -68,6 +68,9 @@ export default function Header() {
               <a href="/shop" className="text-blue-700 ml-2 hover:text-blue-900">
                 Shop
               </a>
+              <a href="/contact" className="text-blue-700 ml-2 hover:text-blue-900">
+                Contact
+              </a>              
             </div>
 
             {user ? (

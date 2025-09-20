@@ -17,10 +17,10 @@ export default function Home() {
 
 
   const skills = [
-  { name: 'React & PHP', level: 100, experience: 4 },
-  { name: 'HTML & CSS & Javascript', level: 100, experience: 10 },
-  { name: 'Game Contents & Web Design', level: 100, experience: 10 },
-  { name: 'UI Design', level: 100, experience: 3 },
+  { name: 'React & PHP', level: 100, experience: 6 },
+  { name: 'HTML & CSS & Javascript', level: 100, experience: 15 },
+  { name: 'Game Contents & Web Design', level: 100, experience: 13 },
+  { name: 'UI Design', level: 100, experience: 6 },
   { name: 'WordPress', level: 100, experience: 3 },
   { name: 'C#.net', level: 100, experience: 3 },
   { name: 'Java', level: 100, experience: 2 },
@@ -30,10 +30,10 @@ export default function Home() {
   const experience = [
   {
     date: 'Aug 2024 - NOW',
-    role: 'Main Programmer (Web Developer)/ Web Designer',
+    role: 'Main Programmer (Full-stack Developer)/ Web Designer',
     desc: [
       'PHP Site Developer, DB maintenance, Web site Design, UI/UX',
-      'Developed PHP sites, SQL Maintain PHP sites, SQL',
+      'SQL Maintain PHP sites, SQL, Planning',
       'Member\'s schedule, agenda management, participated meetings',
     ],
     name: 'Dalsaram.com',
@@ -45,6 +45,7 @@ export default function Home() {
     desc: [
       'Game titles: Super Star BTS, SMtown, Pledis Series',
       'Member\'s schedule, agenda management, participated meetings',
+      'Created image sources for update',
     ],
     name: 'PONOS',
     region: 'JAPAN',
@@ -197,7 +198,14 @@ const education = [
             <div key={index} className="bg-white p-6 border border-gray-300 rounded-lg shadow hover:shadow-lg transition">
               <p className="text-sm text-gray-400 mb-2">{item.date}</p>
               <h3 className="text-xl font-semibold mb-2">{item.role}</h3>
-              <p className="text-gray-500 mb-2">{item.desc}</p>
+              <p className="text-gray-500 mb-2">  
+                {item.desc.map((line, idx) => (
+                  <span key={idx}>
+                    {line}
+                    <br />
+                  </span>
+                ))}
+              </p>
               <p className="text-gray-700 font-medium">{item.name}</p>
               <p className="text-gray-400 text-sm">{item.region}</p>
             </div>

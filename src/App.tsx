@@ -1,5 +1,4 @@
-// src/App.tsx
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
@@ -8,9 +7,12 @@ import TripListPage from "./pages/TripListPage";
 import TripDetailPage from "./pages/TripDetailPage";
 import MainLayout from "./layouts/MainLayout";
 import About from "./pages/About";
-import BoardListPage from "./pages/BoardListPage";
-import MyPage from "./pages/MyPage"; 
-
+import BoardPage from "./pages/BoardListPage";
+import WorksListPage from "./pages/WorksListPage";
+import WorksWritePage from "./pages/WorksWritePage";
+import RequestsWritePage from "./pages/RequestsWritePage";
+import RequestsListPage from "./pages/RequestsListPage";
+import MyPage from "./pages/Mypage";
 
 function App() {
   return (
@@ -28,7 +30,16 @@ function App() {
           <Route path="/trips" element={<TripListPage />} />
           <Route path="/trips/:id" element={<TripDetailPage />} />
           <Route path="/mypage" element={<MyPage />} />
-          <Route path="/board" element={<BoardListPage />} />
+
+          {/* Board 라우트 */}
+          <Route path="/board" element={<BoardPage />}>
+            {/* /board 접속 시 /board/works로 리다이렉트 */}
+            <Route index element={<Navigate to="works" replace />} />
+            <Route path="works" element={<WorksListPage />} />
+            <Route path="works/new" element={<WorksWritePage />} />
+            <Route path="requests" element={<RequestsListPage />} />
+            <Route path="requests/new" element={<RequestsWritePage />} />
+          </Route>
         </Route>
       </Routes>
     </Router>
