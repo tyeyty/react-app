@@ -25,8 +25,9 @@ export default function WorksWritePage() {
     if (imageFile) {
       setUploading(true);
       const fileName = `${Date.now()}_${imageFile.name}`;
+
       const { error: uploadError } = await supabase.storage
-        .from("works-images") // 미리 supabase에서 bucket 생성
+        .from("works-images")
         .upload(fileName, imageFile);
 
       if (uploadError) {
@@ -35,12 +36,10 @@ export default function WorksWritePage() {
         return alert("이미지 업로드 실패");
       }
 
-      // 업로드 후 public URL 가져오기
-      const { publicUrl } = supabase.storage
-        .from("works-images")
-        .getPublicUrl(fileName);
+      // public URL 가져오기 (v2)
+      const { data } = supabase.storage.from("works-images").getPublicUrl(fileName);
+      imageUrl = data.publicUrl;
 
-      imageUrl = publicUrl;
       setUploading(false);
     }
 

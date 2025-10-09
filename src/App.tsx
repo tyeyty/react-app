@@ -8,6 +8,7 @@ import TripDetailPage from "./pages/TripDetailPage";
 import MainLayout from "./layouts/MainLayout";
 import About from "./pages/About";
 import BoardPage from "./pages/BoardListPage";
+import BoardDetailPage from "./pages/BoardDetailPage";
 import WorksListPage from "./pages/WorksListPage";
 import WorksWritePage from "./pages/WorksWritePage";
 import RequestsWritePage from "./pages/RequestsWritePage";
@@ -37,8 +38,10 @@ function App() {
             <Route index element={<Navigate to="works" replace />} />
             <Route path="works" element={<WorksListPage />} />
             <Route path="works/new" element={<WorksWritePage />} />
+            <Route path="works/:id" element={<BoardDetailPage />} />
             <Route path="requests" element={<RequestsListPage />} />
             <Route path="requests/new" element={<RequestsWritePage />} />
+            <Route path="requests/:id" element={<BoardDetailPage />} />
           </Route>
         </Route>
       </Routes>

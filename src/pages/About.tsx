@@ -16,9 +16,10 @@ const About: React.FC = () => {
         </div>
 
         {/* 자기소개 */}
-        <h1 className="text-2xl font-bold mt-6">Hi, I’m GH Jo 👋</h1>
+        <h1 className="text-2xl font-bold mt-6">Hi, I’m GH Jo 👋 <br></br>
+        I'm a Full-stack web developer.</h1>
         <p className="text-gray-600 mt-4 leading-relaxed text-left">
-            I’m a Full-stack web developer with over 4 years of experience in <b>PHP</b>, <b>Tailwind</b> and <b>SQL</b>,
+            I’m a <b>Full-stack web developer</b> with over 4 years of experience in <b>PHP</b>, <b>Tailwind</b> and <b>SQL</b>,
             and I’m now expanding into modern stacks like <b>React, Tailwind, and Supabase</b>.<br /><br />
 
             I have lived in <b>Japan for 14 years</b>, gaining a deep understanding of cross-cultural
