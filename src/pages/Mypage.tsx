@@ -5,6 +5,7 @@ export default function MyPage() {
   const [currentName, setCurrentName] = useState("");
   const [currentEmail, setCurrentEmail] = useState("");
   const [newName, setNewName] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [message, setMessage] = useState("");
 
   // 페이지 로드 시 현재 유저 정보 가져오기
@@ -21,15 +22,23 @@ export default function MyPage() {
   }, []);
 
   const handleUpdate = async () => {
-    const { error } = await supabase.auth.updateUser({
-      data: { name: newName },
-    });
+    const updates: any = {};
+    if (newName && newName !== currentName) updates.data = { name: newName };
+    if (newPassword) updates.password = newPassword;
+
+    if (!updates.data && !updates.password) {
+      setMessage("변경할 이름이나 비밀번호를 입력하세요.");
+      return;
+    }
+
+    const { error } = await supabase.auth.updateUser(updates);
 
     if (error) {
-      setMessage("Name edit failed: " + error.message);
+      setMessage("업데이트 실패: " + error.message);
     } else {
-      setMessage("이름이 성공적으로 변경되었습니다!");
-      setCurrentName(newName); // 화면에 업데이트 반영
+      if (newName) setCurrentName(newName);
+      setMessage("정보가 성공적으로 변경되었습니다!");
+      setNewPassword(""); // 입력칸 초기화
     }
   };
 
@@ -54,6 +63,15 @@ export default function MyPage() {
         onChange={(e) => setNewName(e.target.value)}
         className="border p-2 rounded mr-2 w-full mb-4"
       />
+
+      <input
+        type="password"
+        placeholder="New Password"
+        value={newPassword}
+        onChange={(e) => setNewPassword(e.target.value)}
+        className="border p-2 rounded mr-2 w-full mb-4"
+      />
+
       <button
         onClick={handleUpdate}
         className="border border-gray-300 text-blue-500 px-4 py-2 rounded hover:text-blue-600 hover:bg-blue-300 transition-colors"
