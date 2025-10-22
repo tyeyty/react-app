@@ -1,7 +1,7 @@
 // api/price.ts
-import type { VercelRequest, VercelResponse } from '@vercel/node';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: VercelRequest, res: VercelResponse) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { tickers } = req.query;
   if (!tickers || typeof tickers !== 'string') {
     return res.status(400).json({ error: "tickers required" });
