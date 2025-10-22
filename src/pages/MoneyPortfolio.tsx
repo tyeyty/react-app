@@ -177,21 +177,36 @@ const fetchCurrentPrices = async () => {
               </tr>
             </thead>
             <tbody>
-              {stocks.map((s) => (
-                <tr key={s.id} className="text-center">
-                  <td className="border p-2">{s.ticker}</td>
-                  <td className="border p-2">${s.price}</td>
-                  <td className="border p-2">{s.quantity}</td>
-                  <td className="border p-2">
-                    ${currentPrices[s.ticker]?.toFixed(2) ?? "..." }
-                  </td>
-                  <td className="border p-2">
-                    ${((currentPrices[s.ticker] ?? s.price) * s.quantity).toFixed(2)}
-                  </td>
-                  <td className="border p-2">{s.hold ? "✅" : ""}</td>
-                </tr>
-              ))}
+              {stocks.map((s) => {
+                const current = currentPrices[s.ticker]; // 현재가
+                const totalValue = current ? current * s.quantity : s.price * s.quantity; // 평가금액
+                const profit =
+                  current && s.price
+                    ? ((current - s.price) / s.price) * 100
+                    : 0; // 수익률 계산
+
+                return (
+                  <tr key={s.id} className="text-center">
+                    <td className="border p-2 font-semibold">{s.ticker}</td>
+                    <td className="border p-2">${s.price.toFixed(2)}</td>
+                    <td className="border p-2">
+                      {current ? `$${current.toFixed(2)}` : "..."}
+                    </td>
+                    <td className="border p-2">{s.quantity}</td>
+                    <td className="border p-2">${totalValue.toFixed(2)}</td>
+                    <td
+                      className={`border p-2 ${
+                        profit > 0 ? "text-green-600" : profit < 0 ? "text-red-600" : ""
+                      }`}
+                    >
+                      {current ? `${profit.toFixed(2)}%` : "..."}
+                    </td>
+                    <td className="border p-2">{s.hold ? "✅" : ""}</td>
+                  </tr>
+                );
+              })}
             </tbody>
+
           </table>
         </div>
       )}
