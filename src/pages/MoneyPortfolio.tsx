@@ -49,18 +49,30 @@ export default function MoneyPortfolio() {
     fetchStocks();
   }, [currentUser]); // currentUser가 세팅되면 불러오기
 
-  // 3️⃣ 현재가 가져오기 (Yahoo Finance 비공식 API 사용)
-  const fetchCurrentPrices = async () => {
-    if (stocks.length === 0) return;
-    const tickers = stocks.map(s => s.ticker).join(",");
-    try {
-        const res = await fetch(`/api/price?tickers=${tickers}`);
-        const data = await res.json();
-        setCurrentPrices(data);
-    } catch (err) {
-        console.error("현재가 fetch 오류:", err);
+// 주식 현재가 불러오기
+const fetchCurrentPrices = async () => {
+  if (stocks.length === 0) return;
+  const tickers = stocks.map(s => s.ticker).join(",");
+
+  try {
+    const res = await fetch(`/api/price?tickers=${tickers}`);
+    const data = await res.json();
+
+    const prices: Record<string, number> = {};
+    if (Array.isArray(data)) {
+      data.forEach((item: any) => {
+        prices[item.symbol] = item.price;
+      });
+    } else if (typeof data === "object") {
+      prices[data.symbol] = data.price;
     }
-  };
+
+    setCurrentPrices(prices);
+  } catch (err) {
+    console.error("현재가 가져오기 실패:", err);
+  }
+};
+
 
   useEffect(() => {
     fetchCurrentPrices();
