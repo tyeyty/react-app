@@ -65,6 +65,9 @@ export default function Header() {
               <a href="/board" className="text-blue-700 ml-2 hover:text-blue-900">
                 Board
               </a>
+              <a href="/portfolio" className="text-blue-700 ml-2 hover:text-blue-900">
+                My Portfolio
+              </a>              
               <a href="/shop" className="text-blue-700 ml-2 hover:text-blue-900">
                 Shop
               </a>

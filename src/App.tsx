@@ -14,6 +14,7 @@ import WorksWritePage from "./pages/WorksWritePage";
 import RequestsWritePage from "./pages/RequestsWritePage";
 import RequestsListPage from "./pages/RequestsListPage";
 import MyPage from "./pages/Mypage";
+import MoneyPortfolio from "./pages/MoneyPortfolio";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/tripview" element={<TripView />} />
           <Route path="/trips" element={<TripListPage />} />
           <Route path="/trips/:id" element={<TripDetailPage />} />
+          <Route path="/portfolio" element={<MoneyPortfolio />} />
           <Route path="/mypage" element={<MyPage />} />
 
           {/* Board 라우트 */}
