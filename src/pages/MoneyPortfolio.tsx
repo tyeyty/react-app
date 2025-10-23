@@ -51,13 +51,12 @@ export default function MoneyPortfolio() {
     fetchStocks();
   }, [currentUser]); // currentUser가 세팅되면 불러오기
 
-  // 주식 현재가 불러오기
+  // 현재가 API 호출
   const fetchCurrentPrices = async () => {
     if (stocks.length === 0) return;
     const tickers = stocks.map(s => s.ticker).join(",");
 
     try {
-      // 로컬 /api 대신 Vercel 배포 URL 사용
       const res = await fetch(
         `https://react-app-git-main-tyeytys-projects.vercel.app/api/price?symbol=${tickers}`
       );
@@ -68,7 +67,7 @@ export default function MoneyPortfolio() {
         data.forEach((item: any) => {
           prices[item.symbol.toUpperCase()] = item.price;
         });
-      } else if (typeof data === "object") {
+      } else if (typeof data === "object" && data.symbol && data.price) {
         prices[data.symbol.toUpperCase()] = data.price;
       }
 
@@ -85,7 +84,7 @@ export default function MoneyPortfolio() {
     return () => clearInterval(interval);
   }, [stocks]);
 
-  // 종목 추가
+   // 종목 추가
   const addStock = async () => {
     if (!ticker || !price || !quantity || !currentUser) return;
 
@@ -102,13 +101,9 @@ export default function MoneyPortfolio() {
       .insert(newStock)
       .select();
 
-    if (error) console.error(error);
-    else setStocks([...stocks, data[0]]);
-
-    setTicker("");
-    setPrice("");
-    setQuantity("");
-    setHold(false);
+    if (error) return console.error(error);
+    setStocks([...stocks, data[0]]);
+    setTicker(""); setPrice(""); setQuantity(""); setHold(false);
   };
 
   // 총자산 계산
