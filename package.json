@@ -36,5 +36,6 @@
     "typescript": "~5.8.3",
     "typescript-eslint": "^8.35.1",
     "vite": "^7.0.4"
-  }
+  },
+  "proxy": "https://react-app-git-main-tyeytys-projects.vercel.app"
 }

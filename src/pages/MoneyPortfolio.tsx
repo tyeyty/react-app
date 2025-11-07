@@ -52,37 +52,84 @@ export default function MoneyPortfolio() {
   }, [currentUser]); // currentUser가 세팅되면 불러오기
 
   // 현재가 API 호출
-  const fetchCurrentPrices = async () => {
-    if (stocks.length === 0) return;
-    const tickers = stocks.map(s => s.ticker).join(",");
+// fetchCurrentPrices 함수 수정
+
+const fetchCurrentPrices = async () => {
+  if (stocks.length === 0 || !currentUser) return; // 사용자가 없으면 호출하지 않음
+
+  // 1. 현재 사용자 세션을 가져와서 인증 토큰을 추출합니다.
+  const { data: sessionData } = await supabase.auth.getSession();
+  const token = sessionData.session?.access_token;
+
+  if (!token) {
+    console.error("Supabase 인증 토큰을 찾을 수 없습니다. 로그인이 필요합니다.");
+    // 토큰이 없으면 API 호출을 중단합니다.
+    return;
+  }
+  
+  const newPrices: Record<string, number> = {};
+  
+  const fetchPromises = stocks.map(async (stock) => {
+    const ticker = stock.ticker.toUpperCase();
 
     try {
-      const res = await fetch(
-        `https://react-app-git-main-tyeytys-projects.vercel.app/api/price?symbol=${tickers}`
-      );
-      const data = await res.json();
-
-      const prices: Record<string, number> = {};
-      if (Array.isArray(data)) {
-        data.forEach((item: any) => {
-          prices[item.symbol.toUpperCase()] = item.price;
-        });
-      } else if (typeof data === "object" && data.symbol && data.price) {
-        prices[data.symbol.toUpperCase()] = data.price;
+      // 2. HTTP 헤더에 인증 토큰을 포함하여 API 호출
+      const res = await fetch(`/api/price?symbol=${ticker}`, {
+        headers: {
+          // 'Authorization' 헤더에 Bearer 토큰 형식으로 전달 (가장 일반적인 인증 방식)
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!res.ok) {
+        // 특히 401 Unauthorized 에러가 뜨는지 확인해 보세요!
+        console.error(`API 호출 실패: ${res.status}`);
+        throw new Error(`Failed to fetch ${ticker}: ${res.statusText}`);
       }
 
-      setCurrentPrices(prices);
+      const data = await res.json();
+      
+      // ... (데이터 파싱 및 취합 로직은 그대로)
+      if (data && data.symbol && typeof data.price === 'number') {
+        return { symbol: data.symbol.toUpperCase(), price: data.price };
+      }
+      return null;
+
     } catch (err) {
-      console.error("현재가 가져오기 실패:", err);
+      console.error(`현재가 가져오기 실패 - ${ticker}:`, err);
+      return null; 
     }
-  };
+  });
 
+  const results = await Promise.all(fetchPromises);
+  results.forEach(item => {
+    if (item) {
+      newPrices[item.symbol] = item.price;
+    }
+  });
 
-  useEffect(() => {
-    fetchCurrentPrices();
-    const interval = setInterval(fetchCurrentPrices, 60 * 1000); // 1분마다 갱신
-    return () => clearInterval(interval);
-  }, [stocks]);
+  setCurrentPrices(newPrices);
+};
+
+// 🚀 수정된 통합 로직
+useEffect(() => {
+  // stocks가 비어있으면 API 호출을 막음
+  if (stocks.length === 0) {
+    setCurrentPrices({}); // 종목이 없으면 현재가도 초기화
+    return;
+  }
+
+  // 즉시 현재가를 한번 가져옵니다.
+  fetchCurrentPrices();
+
+  // 1분마다 갱신하는 인터벌 설정
+  const interval = setInterval(fetchCurrentPrices, 60 * 1000); 
+
+  // 컴포넌트 언마운트 또는 stocks가 변경되어 useEffect가 재실행될 때 인터벌 정리
+  return () => clearInterval(interval);
+  
+}, [stocks]); // stocks 목록이 변경될 때마다 재실행
 
    // 종목 추가
   const addStock = async () => {

@@ -56,6 +56,7 @@ export default function MyPage() {
         <p className="font-medium">{currentName}</p>
       </div>
 
+      New Name:
       <input
         type="text"
         placeholder="New Name"
@@ -64,6 +65,7 @@ export default function MyPage() {
         className="border p-2 rounded mr-2 w-full mb-4"
       />
 
+      New PW:
       <input
         type="password"
         placeholder="New Password"

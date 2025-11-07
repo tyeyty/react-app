@@ -74,7 +74,7 @@ export default function BoardDetailPage() {
     if (!post) return <div className="p-6 text-gray-500">게시글이 없습니다.</div>;
   
     return (
-      <div className="p-6">
+      <div className="p-6 lg:w-[1200px]">
         <button
           onClick={() => navigate(-1)}
           className="text-sm text-blue-600 hover:underline mb-4"

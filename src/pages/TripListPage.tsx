@@ -27,7 +27,7 @@ export default function TripListPage() {
   return (
     <div className="lg:w-[1312px] flex flex-col items-center justify-center bg-white p-4">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">GH's Portfolio Site<br></br>Trips</h1>
+        <h1 className="text-4xl font-bold mb-4">GH's Trips</h1>
       </div>      
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-6xl">
         {trips.map((trip) => (
