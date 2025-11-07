@@ -15,6 +15,7 @@ import RequestsWritePage from "./pages/RequestsWritePage";
 import RequestsListPage from "./pages/RequestsListPage";
 import MyPage from "./pages/Mypage";
 import MoneyPortfolio from "./pages/MoneyPortfolio";
+import ContactPage from "./pages/ContactPage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/trips/:id" element={<TripDetailPage />} />
           <Route path="/portfolio" element={<MoneyPortfolio />} />
           <Route path="/mypage" element={<MyPage />} />
+          <Route path="/contact" element={<ContactPage />} />
 
           {/* Board 라우트 */}
           <Route path="/board" element={<BoardPage />}>
