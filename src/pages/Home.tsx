@@ -48,7 +48,7 @@ export default function Home() {
       'Created image sources for update',
     ],
     name: 'PONOS',
-    region: 'JAPAN',
+    region: 'Kyoto, JAPAN',
   }, 
   {
     date: 'Oct 2014 - Aug 2022',
@@ -62,7 +62,7 @@ export default function Home() {
       'Participated in the QA test for the Korean version once a month',
     ],
     name: 'PONOS',
-    region: 'JAPAN',
+    region: 'Kyoto, JAPAN',
   },
   {
     date: 'Sep 2010 - Sep 2013',

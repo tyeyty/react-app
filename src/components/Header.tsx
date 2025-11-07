@@ -63,7 +63,7 @@ export default function Header() {
                 Trips
               </a>
               <a href="/board" className="text-blue-700 ml-2 hover:text-blue-900">
-                Board
+                Works
               </a>
               <a href="/portfolio" className="text-blue-700 ml-2 hover:text-blue-900">
                 My Portfolio
