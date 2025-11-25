@@ -4,7 +4,7 @@ import { NavLink, Outlet } from "react-router-dom";
 export default function BoardListPage() {
 return (
     <div className="p-6">
-      <h1 className="text-xl font-bold mb-6">Board</h1>
+      <h1 className="text-xl font-bold mb-6">Works</h1>
 
       {/* 탭 메뉴 */}
       <div className="flex border-b mb-4">
@@ -18,7 +18,7 @@ return (
             }`
           }
         >
-          Works
+          Dev
         </NavLink>
         <NavLink
           to="requests"
@@ -30,7 +30,7 @@ return (
             }`
           }
         >
-          Requests
+          Design
         </NavLink>
       </div>
 
