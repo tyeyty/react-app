@@ -23,7 +23,7 @@ export default function DesignWorksListPage() {
     const { data, error } = await supabase
       .from("design_projects")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("sort", { ascending: false });
 
     if (error) {
       console.error(error);

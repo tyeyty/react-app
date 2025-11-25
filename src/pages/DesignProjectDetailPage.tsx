@@ -45,7 +45,7 @@ export default function DesignProjectDetailPage() {
       .from("design_works")
       .select("*")
       .eq("project_id", id)
-      .order("created_at", { ascending: false });
+      .order("sort", { ascending: false });
 
     if (!error && data) setWorks(data as WorkItem[]);
   };
