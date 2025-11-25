@@ -21,7 +21,7 @@ return (
           Dev
         </NavLink>
         <NavLink
-          to="requests"
+          to="design"
           className={({ isActive }) =>
             `px-4 py-2 font-medium ${
               isActive

@@ -11,8 +11,8 @@ import BoardPage from "./pages/BoardListPage";
 import BoardDetailPage from "./pages/BoardDetailPage";
 import WorksListPage from "./pages/WorksListPage";
 import WorksWritePage from "./pages/WorksWritePage";
-import RequestsWritePage from "./pages/RequestsWritePage";
-import RequestsListPage from "./pages/RequestsListPage";
+import DesignListPage from "./pages/DesignWorksListPage";
+import DesignDetailPage from "./pages/DesignProjectDetailPage";
 import MyPage from "./pages/Mypage";
 import MoneyPortfolio from "./pages/MoneyPortfolio";
 import ContactPage from "./pages/ContactPage";
@@ -43,9 +43,8 @@ function App() {
             <Route path="works" element={<WorksListPage />} />
             <Route path="works/new" element={<WorksWritePage />} />
             <Route path="works/:id" element={<BoardDetailPage />} />
-            <Route path="requests" element={<RequestsListPage />} />
-            <Route path="requests/new" element={<RequestsWritePage />} />
-            <Route path="requests/:id" element={<BoardDetailPage />} />
+            <Route path="design" element={<DesignListPage />} />
+            <Route path="design/:id" element={<DesignDetailPage />} />
           </Route>
         </Route>
       </Routes>
