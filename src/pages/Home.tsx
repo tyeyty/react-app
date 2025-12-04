@@ -33,7 +33,7 @@ export default function Home() {
     role: 'Full-stack Developer & Technical Lead',
     desc: [
       'Spearheaded the full development lifecycle of the corporate website, handling both Frontend (UI/UX) and Backend development.',
-      'Managed and optimized $\text{SQL}$ databases to enhance application performance and data integrity.',
+      'Managed and optimized SQL databases to enhance application performance and data integrity.',
       'Coordinated development initiatives and project planning across teams.',
     ],
     name: 'Dalsaram.com',
