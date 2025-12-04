@@ -41,11 +41,12 @@ export default function Home() {
   },   
      {
     date: '2 years',
-    role: 'Design Team Leader',
+    role: 'Design/Production Lead',
     desc: [
-      'Game titles: Super Star BTS, SMtown, Pledis Series',
-      'Managed and coordinated design/development sprints for game updates.',
-      'Streamlined asset delivery pipeline between Design and Development teams.',
+      'Worked closely with engineering teams for live-service game operations.',
+      'Managed multi-disciplinary sprints and coordinated releases for Super Star BTS, SMTown, and Pledis series.',
+      'Improved asset and build delivery workflows between Design and Development, reducing turnaround times.',
+      'Collaborated with developers to optimize update pipelines and feature implementation processes.',
     ],
     name: 'PONOS',
     region: 'Kyoto, JAPAN',
