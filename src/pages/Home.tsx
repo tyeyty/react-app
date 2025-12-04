@@ -29,93 +29,79 @@ export default function Home() {
 
   const experience = [
   {
-    date: 'Aug 2024 - NOW',
-    role: 'Main Programmer (Full-stack Developer)/ Web Designer',
+    date: '2024 - Present',
+    role: 'Full-stack Developer & Technical Lead',
     desc: [
-      'PHP Site Developer, DB maintenance, Web site Design, UI/UX',
-      'SQL Maintain PHP sites, SQL, Planning',
-      'Member\'s schedule, agenda management, participated meetings',
+      'Spearheaded the full development lifecycle of the corporate website, handling both Frontend (UI/UX) and Backend development.',
+      'Managed and optimized $\text{SQL}$ databases to enhance application performance and data integrity.',
+      'Coordinated development initiatives and project planning across teams.',
     ],
     name: 'Dalsaram.com',
     region: 'Dallas in TX, USA',
   },   
      {
-    date: 'Jan 2020 - Feb 2022',
+    date: '2 years',
     role: 'Design Team Leader',
     desc: [
       'Game titles: Super Star BTS, SMtown, Pledis Series',
-      'Member\'s schedule, agenda management, participated meetings',
-      'Created image sources for update',
+      'Managed and coordinated design/development sprints for game updates.',
+      'Streamlined asset delivery pipeline between Design and Development teams.',
     ],
     name: 'PONOS',
     region: 'Kyoto, JAPAN',
   }, 
   {
-    date: 'Oct 2014 - Aug 2022',
-    role: 'Senior Web & UI Designer',
+    date: '8 years',
+    role: 'Frontend Development & UI/UX Implementation',
     desc: [
-      'Game titles: Battle Cat, Super Star BTS, SMtown, Pledis Series',
-      'Developed user interface designs for web and mobile applications',
-      'Developed official website',
-      'Created image sources for update',
-      'Translate Japanese game content into Korean',
-      'Participated in the QA test for the Korean version once a month',
-    ],
+        'Oversaw front-end implementation and content integration for major global titles (Battle Cat, Super Star Series, etc.).',
+        'Implemented responsive and performant user interfaces (web/mobile) and managed the official corporate website\'s front-end architecture.',
+        'Coordinated localization efforts and managed digital asset pipelines, ensuring timely and accurate content updates.',
+        'Conducted regular QA tests, focusing on identifying and resolving critical cross-browser and localization bugs to ensure high quality.',
+      ],
     name: 'PONOS',
     region: 'Kyoto, JAPAN',
   },
   {
-    date: 'Sep 2010 - Sep 2013',
-    role: 'Senior Web & UI Designer',
+    date: '3 years',
+    role: 'Frontend Engineer & Full-Stack Contributor',
     desc: [
-      'Game titles: Monster Hunter PC version, Bio Hazard Mobile',
-      'Developed user interface designs for web and mobile applications',
-      'Developed and created official website and content',
-      'Created image sources for update',
+      'Game titles: Monster Hunter PC version, Bio Hazard Mobile official web and mobile interfaces',
+      'Implemented responsive and cross-browser user interfaces using HTML/CSS/JavaScript.',
+      'Led the full development cycle of the official corporate website, including front-end implementation and **PHP** integration.',
+      'Conducted maintenance and feature development for live **PHP**-based services, focusing on stability and new content integration. ',
     ],
     name: 'CAPCOM',
     region: 'Tokyo, JAPAN',
   },
   {
-    date: 'Sep 2009 - Sep 2010',
-    role: 'Junior Web & UI Designer',
+    date: '2 years',
+    role: 'Enterprise Systems Developer',
     desc: [
-      'Game Titles: Seal, Rohan, Tenchi-Dearan, 81 Keys, etc.',
-      'Developed user interface designs for web',
-      'Developed and created official website and content',
-      'Created image sources for update',
+      'Utilized C#.net and Java to develop critical internal enterprise systems.',
+      'Designed and implemented the user interface (UI) for the internal system using HTML/CSS.',
+      'Developed custom data processing scripts using VBA for efficient internal operations.',
     ],
-    name: 'Wemade',
-    region: 'Tokyo, JAPAN',
-  },
-  {
-    date: 'Aug 2007 - Sep 2009',
-    role: 'Junior Programmer',
-    desc: [
-      'Front-end engineer for stock company',
-      'C#.net, Java, HTML, CSS, VBA',
-      'Developed an in-house system',
-    ],
-    name: 'KYOBO Information Japan',
+    name: 'Nomura Invest (Client)',
     region: 'Tokyo, Japan',
   },
 ];
 
 const education = [
   {
-    year: 2022,
+    year: "",
     degree: "ESL Course",
     school: "UT Arlinton University",
     location: "Texas, USA",
   },  
   {
-    year: 2010,
+    year: "",
     degree: "Bachelor's Degree in Engineering / Department of Information and Communications",
     school: "Open Cyber University",
     location: "South Korea",
   },
   {
-    year: 2006,
+    year: "",
     degree: "Associate's Degree in Visual Design",
     school: "Induk University",
     location: "South Korea",
@@ -132,8 +118,9 @@ const education = [
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">Welcome!<br></br>GH's Portfolio Site</h1>
         <p className="text-2xl text-gray-700 mb-6">
-          Hi! I’m Full Stack Developer & Web/UI designer.<br></br>
-          This is a Trip route/message/board/shop project built with React and Supabase.
+          I’m a Full-Stack Developer specializing in clean UI/UX and scalable web apps.<br></br><br></br>
+          Experienced Full-Stack Engineer delivering reliable backend systems <br></br>
+          and polished interfaces with React, PHP, and Supabase.<br></br>
         </p>
       </div>
 

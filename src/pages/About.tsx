@@ -33,7 +33,7 @@ const About: React.FC = () => {
             and cultural differences to deliver high-quality software.<br /><br />
 
             Currently, I’m leading the <b>full-stack redesign and maintenance of dalsaram.com</b>,
-            a legacy PHP website over 14 years old based in DFW, TX. I’m handling the project 
+            a legacy PHP website over 4 years old based in DFW, TX. I’m handling the project 
             from the planning stage in <b>Figma</b> to implementation, <b>modernizing the front-end, 
             maintaining and upgrading the database, ensuring responsive design, and maintaining 
             functionality while upgrading legacy code</b>.
