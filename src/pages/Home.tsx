@@ -93,13 +93,7 @@ export default function Home() {
 const education = [
   {
     year: "",
-    degree: "ESL Course",
-    school: "UT Arlinton University",
-    location: "Texas, USA",
-  },  
-  {
-    year: "",
-    degree: "Bachelor's Degree in Engineering / Department of Information and Communications",
+    degree: "Bachelor's Degree in Computer Engineering / Department of Information and Communications",
     school: "Open Cyber University",
     location: "South Korea",
   },
@@ -108,7 +102,14 @@ const education = [
     degree: "Associate's Degree in Visual Design",
     school: "Induk University",
     location: "South Korea",
+  },      
+  {
+    year: "",
+    degree: "ESL Course",
+    school: "UT Arlinton University",
+    location: "Texas, USA",
   },  
+
 ];
 
 
