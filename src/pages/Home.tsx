@@ -17,14 +17,14 @@ export default function Home() {
 
 
   const skills = [
-  { name: 'React & PHP', level: 100, experience: 6 },
+  { name: 'Javascript & PHP', level: 100, experience: 6 },
+  { name: 'React', level: 100, experience: 3 }, 
+  { name: 'Supabase', level: 100, experience: 3 },   
+  { name: 'SQL(MYSQL)', level: 100, experience: 6 },  
   { name: 'HTML & CSS & Javascript', level: 100, experience: 15 },
-  { name: 'Game Contents & Web Design', level: 100, experience: 13 },
-  { name: 'UI Design', level: 100, experience: 6 },
-  { name: 'WordPress', level: 100, experience: 3 },
+  { name: 'Figma', level: 100, experience: 3 },
   { name: 'C#.net', level: 100, experience: 3 },
-  { name: 'Java', level: 100, experience: 2 },
-  { name: 'Unity', level: 50, experience: 1 },
+  { name: 'WordPress', level: 100, experience: 2 },
 ];
 
   const experience = [
@@ -53,7 +53,7 @@ export default function Home() {
   }, 
   {
     date: '8 years',
-    role: 'Game UI / Frontend Engineer (Global Live Ops)',
+    role: 'Game UI / Frontend Engineer (Frontend  / Global Live Ops)',
     desc: [
       'Maintained monthly and quarterly global updates, integrating new content and preparing builds for major titles.',
       'Developed and maintained the official global website (PHP/ Wordpress / HTML / CSS), improving structure and adding new features.',
@@ -67,7 +67,7 @@ export default function Home() {
   },
   {
     date: '3 years',
-    role: 'Frontend Engineer & Full-Stack Contributor',
+    role: 'Frontend Engineer & Full-Stack Engineer',
     desc: [
       'Game titles: Monster Hunter PC version, Bio Hazard Mobile official web and mobile interfaces',
       'Implemented responsive and cross-browser user interfaces using HTML/CSS/JavaScript.',
@@ -122,9 +122,10 @@ const education = [
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">Welcome!<br></br>GH's Portfolio Site</h1>
         <p className="text-2xl text-gray-700 mb-6">
-          I’m a Full-Stack Developer specializing in clean UI/UX and scalable web apps.<br></br><br></br>
-          Experienced Full-Stack Engineer delivering reliable backend systems <br></br>
-          and polished interfaces with React, PHP, and Supabase.<br></br>
+          I’m a Full-Stack Software Engineer with 5+ years of experience building<br></br>
+          and maintaining production web platforms using PHP, JavaScript, React, and Supabase.<br></br><br></br>
+          Skilled in modernizing legacy systems, designing scalable architectures,<br></br>
+          and delivering reliable backend services with responsive, user-focused frontends.<br></br>
         </p>
       </div>
 

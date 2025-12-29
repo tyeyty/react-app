@@ -2,6 +2,24 @@
 import React from "react";
 
 const About: React.FC = () => {
+
+  const responsibilities = [
+    "Modernizing front-end architecture and UI",
+    "Maintaining and upgrading relational databases",
+    "Ensuring responsive, cross-device compatibility",
+    "Refactoring and upgrading legacy PHP code while keeping the service live",
+  ];
+
+  const skills = {
+  "Programming Languages": ["PHP", "JavaScript", "C# / .NET"],
+  "Data & Query Languages": ["SQL"],
+  "Frontend Frameworks & Libraries": ["React"],
+  "Styling & UI": ["Tailwind CSS", "CSS"],
+  "Markup": ["HTML"],  
+  "Backend & Platforms": ["Supabase", "SQL (MySQL)"],
+  "Tools & Collaboration": ["GitHub", "JIRA", "WordPress", "Figma"],
+};
+
   return (
     <div className="lg:w-[1312px] flex flex-col items-center justify-center bg-gray-50 px-6 py-12">
       {/* 프로필 카드 */}
@@ -17,30 +35,36 @@ const About: React.FC = () => {
 
         {/* 자기소개 */}
         <h1 className="text-2xl font-bold mt-6">Hi, I’m GH Jo 👋 <br></br>
-        I'm a Full-stack web developer.</h1>
+        I'm a Full-stack software engineer.</h1>
         <p className="text-gray-600 mt-4 leading-relaxed text-left">
-            I’m a <b>Full-stack web developer</b> with over 4 years of experience in <b>PHP</b>, <b>Tailwind</b> and <b>SQL</b>,
-            and I’m now expanding into modern stacks like <b>React, Tailwind, and Supabase</b>.<br /><br />
+            <b>Full-stack software engineer</b> with 4+ years of hands-on experience building, 
+            maintaining, and modernizing <b>production web platforms</b> using <b>PHP, SQL, and Tailwind CSS</b>, and 
+            currently expanding into <b>React-based modern stacks with Supabase</b>.
 
-            I have lived in <b>Japan for 14 years</b>, gaining a deep understanding of cross-cultural
-            communication, and I’ve been living in <b>the United States for the past 4 years</b>,
-            further broadening my international perspective.<br /><br />
+            I specialize in <b>owning systems end-to-end</b> — from planning and system design to implementation, 
+            testing, deployment, and ongoing maintenance. 
+            I’m particularly experienced in working with <b>legacy codebases</b>, 
+            incrementally modernizing them while keeping existing functionality stable and 
+            users unaffected.<br /><br />
 
-            My last role was at a <b>global gaming company</b>, where I worked in the overseas
-            development department managing multilingual support for European, Chinese, Korean,
-            and English versions of our games. Over 8 years, I collaborated closely with team
-            members from multiple countries, learning how to coordinate across time zones, languages,
-            and cultural differences to deliver high-quality software.<br /><br />
+            Previously, I worked at a <b>global gaming company</b> in the overseas development department, 
+            supporting multilingual releases across <b>Europe, China, Korea, and English-speaking regions</b>. 
+            Over 8 years, I collaborated with cross-functional teams across time zones and 
+            cultures, gaining strong experience in <b>international coordination and 
+            production-level communication</b>.<br /><br />
 
-            Currently, I’m leading the <b>full-stack redesign and maintenance of dalsaram.com</b>,
-            a legacy PHP website over 4 years old based in DFW, TX. I’m handling the project 
-            from the planning stage in <b>Figma</b> to implementation, <b>modernizing the front-end, 
-            maintaining and upgrading the database, ensuring responsive design, and maintaining 
-            functionality while upgrading legacy code</b>.
+            Currently, I lead the <b>full-stack redesign and maintenance of dalsaram.com</b>, 
+            a long-running PHP-based service located in <b>DFW, Texas</b>. 
+            I manage the project from <b>Figma-based planning</b> through implementation, including:<br />
+            
+            <ul className="list-disc pl-5 space-y-1">
+              {responsibilities.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul><br />
 
-            I enjoy building user-friendly applications that solve real problems, exploring new
-            technologies, and combining my global experience with technical expertise to create
-            solutions that resonate with users around the world.
+           I enjoy solving real-world problems through clean, maintainable software and thrive in environments where 
+           engineers take <b>ownership, make technical decisions, and build systems that people rely on every day</b>.
             </p>
 
 
@@ -48,36 +72,25 @@ const About: React.FC = () => {
         <div className="mt-6 text-left">
           <h2 className="text-lg font-semibold text-gray-800 mb-3">🔧 Skills</h2>
           <div className="flex flex-wrap gap-3">
-            <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
-              PHP
-            </span>
-            <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
-              SQL
-            </span>
-            <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
-              Javascript
-            </span>            
-            <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
-              React
-            </span>
-            <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
-              Tailwind
-            </span>
-            <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
-              Supabase
-            </span>
-            <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
-              Figma
-            </span>
-            <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
-              HTML/ CSS
-            </span>
-            <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
-              Wordpress
-            </span>
-            <span className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm">
-              Adobe Suites
-            </span>                                                
+            <div className="space-y-4">
+              {Object.entries(skills).map(([category, items]) => (
+                <div key={category}>
+                  <p className="mb-2 text-sm font-semibold text-gray-600">
+                    {category}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {items.map((item) => (
+                      <span
+                        key={item}
+                        className="px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>                                              
           </div>
         </div>
 
