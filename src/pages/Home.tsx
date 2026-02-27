@@ -52,7 +52,7 @@ export default function Home() {
     region: 'Kyoto, JAPAN',
   }, 
   {
-    date: '8 years',
+    date: '6 years',
     role: 'Game UI / Frontend Engineer (Frontend  / Global Live Ops)',
     desc: [
       'Maintained monthly and quarterly global updates, integrating new content and preparing builds for major titles.',
@@ -78,7 +78,7 @@ export default function Home() {
     region: 'Tokyo, JAPAN',
   },
   {
-    date: '2 years',
+    date: '3 years',
     role: 'Enterprise Systems Developer',
     desc: [
       'Utilized C#.net and Java to develop critical internal enterprise systems.',
