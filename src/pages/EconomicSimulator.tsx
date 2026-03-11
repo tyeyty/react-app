@@ -24,6 +24,19 @@ interface Pension {
   endAge: number;
 }
 
+type EventKind = "one-time" | "recurring";
+type EventTarget = "asset" | "consumption" | "income";
+
+interface LifeEvent {
+  id: number;
+  kind: EventKind;
+  name: string;
+  target: EventTarget;
+  amount: number;
+  age: number;
+  endAge: number; // recurring 전용: 0 = 사망까지
+}
+
 type Inputs = typeof DEFAULT_INPUTS;
 
 // ── Constants ──────────────────────────────────────────
@@ -207,6 +220,156 @@ const PensionCard = ({ index, pension, onChange, colorClass, label, icon }: Pens
   );
 };
 
+// ── Events Section Component ───────────────────────────
+const TARGET_LABELS: Record<EventTarget, string> = {
+  asset: "💰 자산 직접",
+  consumption: "🛒 연간 소비",
+  income: "💼 연간 수입",
+};
+
+interface EventsSectionProps {
+  events: LifeEvent[];
+  onChange: (events: LifeEvent[]) => void;
+}
+
+let nextId = 1;
+
+const EventsSection = ({ events, onChange }: EventsSectionProps) => {
+  const add = () => {
+    onChange([
+      ...events,
+      {
+        id: nextId++,
+        kind: "one-time",
+        name: "",
+        target: "asset",
+        amount: 0,
+        age: 60,
+        endAge: 0,
+      },
+    ]);
+  };
+
+  const remove = (id: number) => onChange(events.filter((e) => e.id !== id));
+
+  const update = <K extends keyof LifeEvent>(id: number, field: K, value: LifeEvent[K]) =>
+    onChange(events.map((e) => (e.id === id ? { ...e, [field]: value } : e)));
+
+  return (
+    <div className="space-y-2">
+      {events.length === 0 && (
+        <p className="text-xs text-slate-500 text-center py-2">이벤트가 없습니다</p>
+      )}
+      {events.map((ev) => (
+        <div key={ev.id} className="bg-slate-800 border border-amber-900 rounded-xl p-3">
+          {/* 헤더: 이름 + 삭제 */}
+          <div className="flex gap-2 mb-2 items-center">
+            <input
+              type="text"
+              placeholder="이벤트 이름"
+              value={ev.name}
+              onChange={(e) => update(ev.id, "name", e.target.value)}
+              className="flex-1 bg-blue-100 border border-blue-200 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-sky-400"
+            />
+            <button
+              onClick={() => remove(ev.id)}
+              className="text-slate-500 hover:text-red-400 text-sm leading-none px-1"
+            >
+              ✕
+            </button>
+          </div>
+
+          {/* 타입 선택 */}
+          <div className="flex gap-1 mb-2">
+            {(["one-time", "recurring"] as EventKind[]).map((k) => (
+              <button
+                key={k}
+                onClick={() => update(ev.id, "kind", k)}
+                className={`flex-1 py-0.5 rounded text-xs font-semibold border transition-colors ${
+                  ev.kind === k
+                    ? "bg-amber-700 border-amber-500 text-white"
+                    : "bg-slate-700 border-slate-600 text-slate-400 hover:bg-slate-600"
+                }`}
+              >
+                {k === "one-time" ? "⚡ 일회성" : "🔁 반복"}
+              </button>
+            ))}
+          </div>
+
+          {/* 대상 선택 */}
+          <div className="flex gap-1 mb-2">
+            {(["asset", "consumption", "income"] as EventTarget[]).map((t) => (
+              <button
+                key={t}
+                onClick={() => update(ev.id, "target", t)}
+                className={`flex-1 py-0.5 rounded text-xs border transition-colors ${
+                  ev.target === t
+                    ? "bg-sky-700 border-sky-500 text-white font-semibold"
+                    : "bg-slate-700 border-slate-600 text-slate-400 hover:bg-slate-600"
+                }`}
+              >
+                {TARGET_LABELS[t]}
+              </button>
+            ))}
+          </div>
+
+          {/* 금액 */}
+          <div className="mb-2">
+            <label className="block text-xs text-slate-400 mb-1">
+              금액 (+ 증가 / − 감소)
+            </label>
+            <input
+              type="number"
+              value={ev.amount}
+              onChange={(e) => update(ev.id, "amount", parseFloat(e.target.value) || 0)}
+              className="w-full bg-blue-100 border border-blue-200 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-sky-400"
+            />
+          </div>
+
+          {/* 나이 */}
+          <div className="flex gap-2">
+            <div className="flex-1">
+              <label className="block text-xs text-slate-400 mb-1">
+                {ev.kind === "one-time" ? "발생 나이" : "시작 나이"}
+              </label>
+              <input
+                type="number"
+                value={ev.age}
+                onChange={(e) => update(ev.id, "age", parseFloat(e.target.value) || 0)}
+                className="w-full bg-blue-100 border border-blue-200 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-sky-400"
+              />
+            </div>
+            {ev.kind === "recurring" && (
+              <div className="flex-1">
+                <label className="block text-xs text-slate-400 mb-1">종료 나이 (0=사망)</label>
+                <input
+                  type="number"
+                  value={ev.endAge}
+                  onChange={(e) => update(ev.id, "endAge", parseFloat(e.target.value) || 0)}
+                  className="w-full bg-blue-100 border border-blue-200 rounded px-2 py-1 text-xs text-slate-800 outline-none focus:border-sky-400"
+                />
+              </div>
+            )}
+          </div>
+
+          {/* 요약 */}
+          <p className="text-xs text-amber-400 mt-2 italic">
+            {ev.kind === "one-time"
+              ? `${ev.age}세: ${TARGET_LABELS[ev.target]} ${ev.amount >= 0 ? "+" : ""}${ev.amount.toLocaleString()}`
+              : `${ev.age}세~${ev.endAge > 0 ? ev.endAge + "세" : "사망"}: ${TARGET_LABELS[ev.target]} ${ev.amount >= 0 ? "+" : ""}${ev.amount.toLocaleString()}/년`}
+          </p>
+        </div>
+      ))}
+      <button
+        onClick={add}
+        className="w-full py-1.5 rounded-lg text-xs font-bold border border-dashed border-amber-700 text-amber-500 hover:bg-amber-950 transition-colors"
+      >
+        + 이벤트 추가
+      </button>
+    </div>
+  );
+};
+
 // ── Main Component ─────────────────────────────────────
 export default function EconomicFreedomSimulator() {
   const [inputs, setInputs] = useState<Inputs>(DEFAULT_INPUTS);
@@ -214,6 +377,8 @@ export default function EconomicFreedomSimulator() {
   const [ran, setRan] = useState(false);
   const [calcOpen, setCalcOpen] = useState(false);
   const [pensionOpen, setPensionOpen] = useState(true);
+  const [eventsOpen, setEventsOpen] = useState(true);
+  const [events, setEvents] = useState<LifeEvent[]>([]);
   const [monthlyExpenses, setMonthlyExpenses] = useState<number[]>(
     Array(CATEGORIES.length).fill(0)
   );
@@ -272,6 +437,8 @@ export default function EconomicFreedomSimulator() {
     let retirementAdjusted = false;
 
     const activePensions = pensions.filter((p) => p.enabled && p.annualAmount > 0);
+    const activeEvents = events;
+    const appliedOneTime = new Set<number>();
     const monthly: YearlyData[] = [];
 
     for (let m = 0; m < (100 - currentAge) * 12; m++) {
@@ -293,6 +460,28 @@ export default function EconomicFreedomSimulator() {
         const isPrivateActive = p.type === "private" && ageNow >= p.startAge && ageNow < p.endAge;
         if (isPublicActive || isPrivateActive) {
           pensionIncome += p.annualAmount / 12;
+        }
+      }
+
+      // 이벤트 적용
+      for (const ev of activeEvents) {
+        if (ev.kind === "one-time") {
+          // 해당 월에 한 번만
+          const evMonth = Math.round((ev.age - currentAge) * 12);
+          if (m === evMonth && !appliedOneTime.has(ev.id)) {
+            appliedOneTime.add(ev.id);
+            if (ev.target === "asset") asset += ev.amount;
+            else if (ev.target === "consumption") consumption += ev.amount;
+            else if (ev.target === "income") income += ev.amount;
+          }
+        } else {
+          // recurring: 매월 1/12씩
+          const active = ageNow >= ev.age && (ev.endAge === 0 || ageNow < ev.endAge);
+          if (active) {
+            if (ev.target === "asset") asset += ev.amount / 12;
+            else if (ev.target === "consumption") consumption += ev.amount / 12;
+            else if (ev.target === "income") income += ev.amount / 12;
+          }
         }
       }
 
@@ -352,11 +541,11 @@ export default function EconomicFreedomSimulator() {
           </button>
 
           {calcOpen && (
-            <div className="rounded-xl p-3 border border-slate-700">
+            <div className="bg-slate-800 rounded-xl p-3 border border-slate-700">
               <p className="text-xs text-slate-400 mb-3">월별 카테고리 입력 → 연간 소비 자동 계산</p>
               {CATEGORIES.map((cat, idx) => (
                 <div key={idx} className="flex items-center gap-2 mb-2">
-                  <span className="text-xs text-slate-400 w-8 shrink-0">{cat}</span>
+                  <span className="text-xs text-slate-400 w-20 shrink-0">{cat}</span>
                   <input
                     type="number"
                     value={monthlyExpenses[idx]}
@@ -416,6 +605,19 @@ export default function EconomicFreedomSimulator() {
                 icon="🥈"
               />
             </div>
+          )}
+
+          {/* 이벤트 섹션 */}
+          <button
+            onClick={() => setEventsOpen((v) => !v)}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-amber-950 hover:bg-amber-900 transition-colors text-amber-300 text-xs font-semibold"
+          >
+            <span>⚡ 생애 이벤트 {events.length > 0 && `(${events.length})`}</span>
+            <span>{eventsOpen ? "▲" : "▼"}</span>
+          </button>
+
+          {eventsOpen && (
+            <EventsSection events={events} onChange={setEvents} />
           )}
 
           {/* 파라미터 */}
