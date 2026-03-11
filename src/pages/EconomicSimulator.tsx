@@ -1,19 +1,35 @@
 import { useState } from "react";
+import type { ChangeEvent } from "react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid,
   Tooltip, Legend, ResponsiveContainer
 } from "recharts";
 
+// ── Types ──────────────────────────────────────────────
 interface YearlyData {
   age: number;
   asset: number;
   consumption: number;
   income: number;
+  pensionIncome: number;
 }
 
+type PensionType = "public" | "private";
+
+interface Pension {
+  enabled: boolean;
+  type: PensionType;
+  annualAmount: number;
+  startAge: number;
+  endAge: number;
+}
+
+type Inputs = typeof DEFAULT_INPUTS;
+
+// ── Constants ──────────────────────────────────────────
 const CATEGORIES = ["주거비", "식비", "교통비", "교육비", "레저/여가", "기타"];
 
-const FIELD_LABELS: Record<string, string> = {
+const FIELD_LABELS: Record<keyof Inputs, string> = {
   currentAge: "현재 나이",
   currentAsset: "현재 자산",
   assetReturn: "연 수익률 (%)",
@@ -51,27 +67,172 @@ const DEFAULT_INPUTS = {
   doomsdayConsumptionReduction: 30,
 };
 
-const fmt = (n: number) =>
+const DEFAULT_PENSION: Pension = {
+  enabled: false,
+  type: "public",
+  annualAmount: 0,
+  startAge: 65,
+  endAge: 100,
+};
+
+// ── Helpers ────────────────────────────────────────────
+const fmt = (n: number): string =>
   n >= 1e6
     ? (n / 1e6).toFixed(1) + "M"
     : n >= 1e3
     ? (n / 1e3).toFixed(0) + "K"
     : Math.round(n).toLocaleString();
 
+// ── Sub-components ─────────────────────────────────────
+interface InputFieldProps {
+  label: string;
+  name: string;
+  value: number;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  highlighted: boolean;
+}
+
+const InputField = ({ label, name, value, onChange, highlighted }: InputFieldProps) => (
+  <div className="mb-2.5">
+    <label className="block text-xs text-slate-500 mb-1">{label}</label>
+    <input
+      type="number"
+      name={name}
+      value={value}
+      onChange={onChange}
+      className={`w-full border rounded-md px-2.5 py-1.5 text-xs outline-none transition-colors ${
+        highlighted
+          ? "bg-emerald-50 border-emerald-300 text-emerald-800 font-semibold"
+          : "bg-blue-100 border-blue-200 text-slate-800 focus:border-sky-400"
+      }`}
+    />
+  </div>
+);
+
+interface PensionCardProps {
+  index: number;
+  pension: Pension;
+  onChange: (index: number, updated: Pension) => void;
+  colorClass: string;
+  label: string;
+  icon: string;
+}
+
+const PensionCard = ({ index, pension, onChange, colorClass, label, icon }: PensionCardProps) => {
+  const update = <K extends keyof Pension>(field: K, value: Pension[K]) =>
+    onChange(index, { ...pension, [field]: value });
+
+  return (
+    <div className={`rounded-xl border p-3 mb-3 ${colorClass}`}>
+      <div className="flex items-center gap-2 mb-3">
+        <span className="text-base">{icon}</span>
+        <span className="text-xs font-bold text-slate-200">{label}</span>
+        <label className="ml-auto flex items-center gap-1.5 cursor-pointer">
+          <div
+            onClick={() => update("enabled", !pension.enabled)}
+            className={`w-9 h-5 rounded-full transition-colors relative cursor-pointer ${
+              pension.enabled ? "bg-sky-500" : "bg-slate-600"
+            }`}
+          >
+            <div
+              className={`absolute top-0.5 w-4 h-4 rounded-full bg-white transition-all ${
+                pension.enabled ? "left-4" : "left-0.5"
+              }`}
+            />
+          </div>
+          <span className="text-xs text-slate-400">{pension.enabled ? "사용" : "미사용"}</span>
+        </label>
+      </div>
+
+      {pension.enabled && (
+        <div className="space-y-2">
+          {/* 공적/민간 선택 */}
+          <div className="flex gap-2 mb-2">
+            {(["public", "private"] as PensionType[]).map((t) => (
+              <button
+                key={t}
+                onClick={() => update("type", t)}
+                className={`flex-1 py-1 rounded text-xs font-semibold transition-colors border ${
+                  pension.type === t
+                    ? "bg-sky-600 border-sky-400 text-white"
+                    : "bg-slate-700 border-slate-600 text-slate-400 hover:bg-slate-600"
+                }`}
+              >
+                {t === "public" ? "🏛 공적연금" : "🏦 민간/개인연금"}
+              </button>
+            ))}
+          </div>
+
+          <div>
+            <label className="block text-xs text-slate-400 mb-1">연간 수령액</label>
+            <input
+              type="number"
+              value={pension.annualAmount}
+              onChange={(e) => update("annualAmount", parseFloat(e.target.value) || 0)}
+              className="w-full bg-blue-100 border border-blue-200 rounded px-2.5 py-1.5 text-xs text-slate-800 outline-none focus:border-sky-400"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs text-slate-400 mb-1">수령 시작 나이</label>
+            <input
+              type="number"
+              value={pension.startAge}
+              onChange={(e) => update("startAge", parseFloat(e.target.value) || 0)}
+              className="w-full bg-blue-100 border border-blue-200 rounded px-2.5 py-1.5 text-xs text-slate-800 outline-none focus:border-sky-400"
+            />
+          </div>
+
+          {pension.type === "private" && (
+            <div>
+              <label className="block text-xs text-slate-400 mb-1">수령 종료 나이</label>
+              <input
+                type="number"
+                value={pension.endAge}
+                onChange={(e) => update("endAge", parseFloat(e.target.value) || 0)}
+                className="w-full bg-blue-100 border border-blue-200 rounded px-2.5 py-1.5 text-xs text-slate-800 outline-none focus:border-sky-400"
+              />
+              <p className="text-xs text-slate-500 mt-1">
+                수령 기간: {Math.max(0, pension.endAge - pension.startAge)}년
+              </p>
+            </div>
+          )}
+
+          {pension.type === "public" && (
+            <p className="text-xs text-slate-500 italic">※ 공적연금은 사망 시까지 수령</p>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ── Main Component ─────────────────────────────────────
 export default function EconomicFreedomSimulator() {
-  const [inputs, setInputs] = useState(DEFAULT_INPUTS);
+  const [inputs, setInputs] = useState<Inputs>(DEFAULT_INPUTS);
   const [results, setResults] = useState<YearlyData[]>([]);
   const [ran, setRan] = useState(false);
   const [calcOpen, setCalcOpen] = useState(false);
-  const [monthlyExpenses, setMonthlyExpenses] = useState<number[]>(Array(CATEGORIES.length).fill(0));
+  const [pensionOpen, setPensionOpen] = useState(true);
+  const [monthlyExpenses, setMonthlyExpenses] = useState<number[]>(
+    Array(CATEGORIES.length).fill(0)
+  );
   const [applied, setApplied] = useState(false);
+  const [pensions, setPensions] = useState<Pension[]>([
+    { ...DEFAULT_PENSION },
+    { ...DEFAULT_PENSION, startAge: 55, endAge: 75, type: "private" },
+  ]);
 
   const totalMonthly = monthlyExpenses.reduce((a, b) => a + b, 0);
   const totalAnnual = totalMonthly * 12;
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setInputs((prev) => ({ ...prev, [name]: parseFloat(value) || 0 }));
+  };
+
+  const handlePensionChange = (index: number, updated: Pension) => {
+    setPensions((prev) => prev.map((p, i) => (i === index ? updated : p)));
   };
 
   const handleExpenseChange = (index: number, value: number) => {
@@ -110,10 +271,12 @@ export default function EconomicFreedomSimulator() {
     let childReduced = false;
     let retirementAdjusted = false;
 
+    const activePensions = pensions.filter((p) => p.enabled && p.annualAmount > 0);
     const monthly: YearlyData[] = [];
 
     for (let m = 0; m < (100 - currentAge) * 12; m++) {
       const ageNow = currentAge + m / 12;
+
       if (ageNow >= retirementAge) income = 0;
       if (!retirementAdjusted && ageNow >= retirementAge) {
         consumption = Math.max(0, consumption + retirementConsumptionChange);
@@ -123,7 +286,17 @@ export default function EconomicFreedomSimulator() {
         consumption = Math.max(0, consumption - childConsumptionReduction);
         childReduced = true;
       }
-      asset = asset * (1 + mReturn) + income / 12 - consumption / 12;
+
+      let pensionIncome = 0;
+      for (const p of activePensions) {
+        const isPublicActive = p.type === "public" && ageNow >= p.startAge;
+        const isPrivateActive = p.type === "private" && ageNow >= p.startAge && ageNow < p.endAge;
+        if (isPublicActive || isPrivateActive) {
+          pensionIncome += p.annualAmount / 12;
+        }
+      }
+
+      asset = asset * (1 + mReturn) + income / 12 + pensionIncome - consumption / 12;
       consumption *= 1 + mConsGrowth;
       if (income > 0) income *= 1 + mIncGrowth;
       if (Math.random() < mRecession) asset *= 1 - recessionDrop / 100;
@@ -131,7 +304,8 @@ export default function EconomicFreedomSimulator() {
         asset *= 1 - doomsdayDrop / 100;
         consumption *= 1 - doomsdayConsumptionReduction / 100;
       }
-      monthly.push({ age: ageNow, asset, consumption, income });
+
+      monthly.push({ age: ageNow, asset, consumption, income, pensionIncome: pensionIncome * 12 });
     }
 
     const yearly: YearlyData[] = [];
@@ -142,6 +316,7 @@ export default function EconomicFreedomSimulator() {
         asset: Math.max(0, last.asset),
         consumption: Math.max(0, last.consumption),
         income: Math.max(0, last.income),
+        pensionIncome: Math.max(0, last.pensionIncome),
       });
     }
 
@@ -150,99 +325,115 @@ export default function EconomicFreedomSimulator() {
   };
 
   const ruined = results.find((r) => r.asset <= 0);
+  const hasPension = pensions.some((p) => p.enabled && p.annualAmount > 0);
 
   return (
     <div className="font-sans min-h-screen text-slate-200 flex flex-col">
       {/* Header */}
-      <div className="px-8 py-6 border-b border-slate-800">
-        <h1 className="text-xl font-bold text-sky-400 tracking-tight m-0">
-          💰 경제적 자유 시뮬레이터
-        </h1>
-        <p className="text-xs text-slate-500 mt-1 mb-0">
-          Monte Carlo 기반 자산·소비·수입 장기 예측
-        </p>
+      <div className="px-8 py-5 border-b border-slate-800 flex items-center gap-3">
+        <span className="text-2xl">💰</span>
+        <div>
+          <h1 className="text-xl font-bold text-sky-400 tracking-tight m-0">경제적 자유 시뮬레이터</h1>
+          <p className="text-xs text-slate-500 mt-0.5 mb-0">Monte Carlo 기반 자산·소비·수입·연금 장기 예측</p>
+        </div>
       </div>
 
       <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
-        <div className="w-72 px-4 py-5 overflow-y-auto shrink-0 border-r border-slate-800">
+        <div className="w-72 px-4 py-5 overflow-y-auto shrink-0 border-r border-slate-800 space-y-1">
 
-          {/* 소비 계산기 토글 */}
+          {/* 소비 계산기 */}
           <button
             onClick={() => setCalcOpen((v) => !v)}
-            className="w-full flex items-center justify-between px-3 py-2 mb-3 rounded-lg bg-emerald-900 hover:bg-emerald-800 transition-colors text-emerald-300 text-xs font-semibold"
+            className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-emerald-900 hover:bg-emerald-800 transition-colors text-emerald-300 text-xs font-semibold"
           >
             <span>🧮 소비액 계산기</span>
-            <span className="text-lg leading-none">{calcOpen ? "▲" : "▼"}</span>
+            <span>{calcOpen ? "▲" : "▼"}</span>
           </button>
 
-          {/* 소비 계산기 패널 */}
           {calcOpen && (
-            <div className="mb-4 bg-slate-800 rounded-xl p-3 border border-slate-700">
+            <div className="rounded-xl p-3 border border-slate-700">
               <p className="text-xs text-slate-400 mb-3">월별 카테고리 입력 → 연간 소비 자동 계산</p>
               {CATEGORIES.map((cat, idx) => (
                 <div key={idx} className="flex items-center gap-2 mb-2">
-                  <span className="text-xs text-slate-400 w-20 shrink-0">{cat}</span>
+                  <span className="text-xs text-slate-400 w-8 shrink-0">{cat}</span>
                   <input
                     type="number"
                     value={monthlyExpenses[idx]}
                     onChange={(e) => handleExpenseChange(idx, parseFloat(e.target.value) || 0)}
-                    className="flex-1 bg-blue-100 border border-blue-200 rounded px-2 py-1 text-slate-800 text-xs outline-none focus:border-sky-400 transition-colors"
+                    className="flex-1 bg-blue-100 border border-blue-200 rounded px-2 py-1 text-slate-800 text-xs outline-none focus:border-sky-400"
                   />
-                  <span className="text-xs text-slate-500 shrink-0">$/월</span>
+                  <span className="text-xs text-slate-500">$/월</span>
                 </div>
               ))}
-
-              {/* 합계 */}
               <div className="mt-3 pt-3 border-t border-slate-700 space-y-1">
                 <div className="flex justify-between text-xs text-slate-400">
-                  <span>월 합계</span>
-                  <span className="text-slate-200">{totalMonthly.toLocaleString()} $</span>
+                  <span>월 합계</span><span>{totalMonthly.toLocaleString()} $</span>
                 </div>
                 <div className="flex justify-between text-xs font-bold">
                   <span className="text-emerald-400">연간 소비 추정</span>
                   <span className="text-emerald-300">{totalAnnual.toLocaleString()} $</span>
                 </div>
               </div>
-
-              {/* 반영 버튼 */}
               <button
                 onClick={handleApply}
                 className={`mt-3 w-full py-1.5 rounded-lg text-xs font-bold transition-all border ${
                   applied
                     ? "bg-emerald-800 border-emerald-600 text-emerald-300 cursor-default"
-                    : "bg-emerald-500 border-emerald-400 text-white hover:bg-emerald-400 cursor-pointer"
+                    : "bg-emerald-500 border-emerald-400 text-white hover:bg-emerald-400"
                 }`}
               >
-                {applied ? "✓ 시뮬레이터에 반영됨" : "→ 연간 소비에 반영"}
+                {applied ? "✓ 반영됨" : "→ 연간 소비에 반영"}
               </button>
             </div>
           )}
 
-          {/* 파라미터 설정 */}
-          <div className="text-xs font-semibold text-slate-400 mb-3 uppercase tracking-widest">
-            파라미터 설정
-          </div>
-          {Object.keys(DEFAULT_INPUTS).map((key) => (
-            <div key={key} className="mb-2.5">
-              <label className="block text-xs text-slate-500 mb-1">
-                {FIELD_LABELS[key]}
-              </label>
-              <input
-                type="number"
-                name={key}
-                value={inputs[key as keyof typeof inputs]}
-                onChange={(e) => {
-                  handleChange(e);
-                  if (key === "annualConsumption") setApplied(false);
-                }}
-                className={`w-full border rounded-md px-2.5 py-1.5 text-xs outline-none transition-colors ${
-                  key === "annualConsumption" && applied
-                    ? "bg-emerald-50 border-emerald-300 text-emerald-800 font-semibold"
-                    : "bg-blue-100 border-blue-200 text-slate-800 focus:border-sky-400"
-                }`}
+          {/* 연금 섹션 */}
+          <button
+            onClick={() => setPensionOpen((v) => !v)}
+            className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-violet-900 hover:bg-violet-800 transition-colors text-violet-300 text-xs font-semibold"
+          >
+            <span>🏦 연금 설정</span>
+            <span>{pensionOpen ? "▲" : "▼"}</span>
+          </button>
+
+          {pensionOpen && (
+            <div>
+              <PensionCard
+                index={0}
+                pension={pensions[0]}
+                onChange={handlePensionChange}
+                colorClass="bg-slate-800 border-violet-800"
+                label="연금 #1"
+                icon="🥇"
+              />
+              <PensionCard
+                index={1}
+                pension={pensions[1]}
+                onChange={handlePensionChange}
+                colorClass="bg-slate-800 border-indigo-800"
+                label="연금 #2"
+                icon="🥈"
               />
             </div>
+          )}
+
+          {/* 파라미터 */}
+          <div className="text-xs font-semibold text-slate-400 pt-2 pb-1 uppercase tracking-widest">
+            파라미터 설정
+          </div>
+          {(Object.keys(DEFAULT_INPUTS) as (keyof Inputs)[]).map((key) => (
+            <InputField
+              key={key}
+              label={FIELD_LABELS[key]}
+              name={key}
+              value={inputs[key]}
+              onChange={(e) => {
+                handleChange(e);
+                if (key === "annualConsumption") setApplied(false);
+              }}
+              highlighted={key === "annualConsumption" && applied}
+            />
           ))}
 
           <button
@@ -256,8 +447,14 @@ export default function EconomicFreedomSimulator() {
         {/* Main */}
         <div className="flex-1 px-7 py-6 overflow-y-auto">
           {!ran ? (
-            <div className="flex items-center justify-center h-full text-slate-500 text-sm">
-              ← 파라미터를 입력하고 시뮬레이션을 실행하세요
+            <div className="flex flex-col items-center justify-center h-full gap-3 text-slate-500">
+              <span className="text-4xl">📊</span>
+              <p className="text-sm">← 파라미터를 입력하고 시뮬레이션을 실행하세요</p>
+              {hasPension && (
+                <p className="text-xs text-violet-400">
+                  연금 {pensions.filter((p) => p.enabled).length}개 설정됨
+                </p>
+              )}
             </div>
           ) : (
             <>
@@ -267,23 +464,64 @@ export default function EconomicFreedomSimulator() {
                 </div>
               )}
 
+              {/* 연금 요약 배지 */}
+              {hasPension && (
+                <div className="flex gap-2 mb-4 flex-wrap">
+                  {pensions.map((p, i) =>
+                    p.enabled && p.annualAmount > 0 ? (
+                      <div
+                        key={i}
+                        className="bg-violet-900 border border-violet-700 rounded-lg px-3 py-1.5 text-xs text-violet-200 flex items-center gap-2"
+                      >
+                        <span>{p.type === "public" ? "🏛" : "🏦"}</span>
+                        <span className="font-semibold">연금 #{i + 1}</span>
+                        <span className="text-violet-400">|</span>
+                        <span>{fmt(p.annualAmount)}/년</span>
+                        <span className="text-violet-400">|</span>
+                        <span>
+                          {p.startAge}세 ~ {p.type === "public" ? "사망" : `${p.endAge}세`}
+                        </span>
+                      </div>
+                    ) : null
+                  )}
+                </div>
+              )}
+
               {/* Chart */}
               <div className="bg-slate-800 rounded-xl p-5 mb-5">
-                <div className="text-sm font-semibold text-slate-400 mb-3">자산 · 소비 · 수입 추이</div>
+                <div className="text-sm font-semibold text-slate-400 mb-3">
+                  자산 · 소비 · 수입 · 연금 추이
+                </div>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={results} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                    <XAxis dataKey="age" stroke="#64748b" tick={{ fontSize: 11 }} label={{ value: "나이", position: "insideBottomRight", offset: -5, fill: "#64748b", fontSize: 11 }} />
+                    <XAxis
+                      dataKey="age"
+                      stroke="#64748b"
+                      tick={{ fontSize: 11 }}
+                      label={{ value: "나이", position: "insideBottomRight", offset: -5, fill: "#64748b", fontSize: 11 }}
+                    />
                     <YAxis stroke="#64748b" tick={{ fontSize: 11 }} tickFormatter={fmt} />
                     <Tooltip
                       contentStyle={{ background: "#0f172a", border: "1px solid #334155", borderRadius: 8, fontSize: 12 }}
-                      formatter={(val) => [fmt(Number(val)), String(val)]}
-                      labelFormatter={(l) => `나이: ${l}세`}
+                      formatter={(val: unknown) => [fmt(Number(val)), String(val)]}
+                      labelFormatter={(l: unknown) => `나이: ${l}세`}
                     />
                     <Legend wrapperStyle={{ fontSize: 12 }} />
                     <Line type="monotone" dataKey="asset" name="자산" stroke="#22c55e" dot={false} strokeWidth={2} />
                     <Line type="monotone" dataKey="consumption" name="연 소비" stroke="#ef4444" dot={false} strokeWidth={2} />
                     <Line type="monotone" dataKey="income" name="연 수입" stroke="#3b82f6" dot={false} strokeWidth={2} />
+                    {hasPension && (
+                      <Line
+                        type="monotone"
+                        dataKey="pensionIncome"
+                        name="연금 수령액"
+                        stroke="#a78bfa"
+                        dot={false}
+                        strokeWidth={2}
+                        strokeDasharray="5 3"
+                      />
+                    )}
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -295,8 +533,11 @@ export default function EconomicFreedomSimulator() {
                   <table className="w-full border-collapse text-xs">
                     <thead>
                       <tr className="bg-slate-950">
-                        {["나이", "자산", "연 소비", "연 수입"].map((h) => (
-                          <th key={h} className="px-3 py-2 text-right text-slate-500 font-semibold sticky top-0 bg-slate-950">
+                        {["나이", "자산", "연 소비", "연 수입", ...(hasPension ? ["연금"] : [])].map((h) => (
+                          <th
+                            key={h}
+                            className="px-3 py-2 text-right text-slate-500 font-semibold sticky top-0 bg-slate-950"
+                          >
                             {h}
                           </th>
                         ))}
@@ -306,12 +547,19 @@ export default function EconomicFreedomSimulator() {
                       {results.map((r, i) => (
                         <tr
                           key={i}
-                          className={`border-t border-slate-700 ${r.asset <= 0 ? "bg-red-950" : "bg-transparent"}`}
+                          className={`border-t border-slate-700 ${r.asset <= 0 ? "bg-red-950" : ""}`}
                         >
                           <td className="px-3 py-1.5 text-right text-slate-400">{r.age}세</td>
-                          <td className={`px-3 py-1.5 text-right font-semibold ${r.asset <= 0 ? "text-red-400" : "text-green-400"}`}>{fmt(r.asset)}</td>
+                          <td className={`px-3 py-1.5 text-right font-semibold ${r.asset <= 0 ? "text-red-400" : "text-green-400"}`}>
+                            {fmt(r.asset)}
+                          </td>
                           <td className="px-3 py-1.5 text-right text-red-400">{fmt(r.consumption)}</td>
                           <td className="px-3 py-1.5 text-right text-blue-400">{fmt(r.income)}</td>
+                          {hasPension && (
+                            <td className="px-3 py-1.5 text-right text-violet-400">
+                              {r.pensionIncome > 0 ? fmt(r.pensionIncome) : <span className="text-slate-600">-</span>}
+                            </td>
+                          )}
                         </tr>
                       ))}
                     </tbody>
