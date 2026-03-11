@@ -16,6 +16,7 @@ import DesignDetailPage from "./pages/DesignProjectDetailPage";
 import MyPage from "./pages/Mypage";
 import MoneyPortfolio from "./pages/MoneyPortfolio";
 import ContactPage from "./pages/ContactPage";
+import EconomicSimulator from "./pages/EconomicSimulator";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/trips" element={<TripListPage />} />
           <Route path="/trips/:id" element={<TripDetailPage />} />
           <Route path="/portfolio" element={<MoneyPortfolio />} />
+          <Route path="/simul" element={<EconomicSimulator />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/contact" element={<ContactPage />} />
 

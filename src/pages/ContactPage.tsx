@@ -1,17 +1,38 @@
 // src/pages/ContactPage.tsx
 import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
 
 const ContactPage = () => {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "", title: "" });
+  const [sending, setSending] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Message submitted! (This is a placeholder)");
-    setFormData({ name: "", email: "", message: "" });
+    setSending(true);
+    try {
+      await emailjs.send(
+        "service_gna4jlp",
+        "template_qstk7af",
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          title: formData.title,
+        },
+        "OZpDeo2NrKSm0lj-F"
+      );
+      alert("메시지가 전송되었습니다!");
+      setFormData({ name: "", email: "", message: "", title: "" });
+    } catch (error) {
+      console.error("EmailJS 에러:", error);
+      alert("전송 실패. 다시 시도해주세요.");
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -37,6 +58,15 @@ const ContactPage = () => {
           className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           required
         />
+        <input
+          type="text"
+          name="title"
+          placeholder="Title"
+          value={formData.title}
+          onChange={handleChange}
+          className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+          required
+        />        
         <textarea
           name="message"
           placeholder="Your Message"
@@ -47,9 +77,10 @@ const ContactPage = () => {
         />
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          disabled={sending}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
         >
-          Send Message
+          {sending ? "Sending..." : "Send Message"}
         </button>
       </form>
 
@@ -59,20 +90,12 @@ const ContactPage = () => {
             📄 Resume
           </button>
         </a>
-        <a
-          href="https://www.linkedin.com/in/tyeyty"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://www.linkedin.com/in/tyeyty" target="_blank" rel="noopener noreferrer">
           <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center gap-2">
             🔗 LinkedIn
           </button>
         </a>
-        <a
-          href="https://github.com/tyeyty"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
+        <a href="https://github.com/tyeyty" target="_blank" rel="noopener noreferrer">
           <button className="px-4 py-2 bg-gray-900 text-white rounded hover:bg-gray-700 flex items-center gap-2">
             🖥 GitHub
           </button>
