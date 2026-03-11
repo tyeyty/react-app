@@ -545,12 +545,12 @@ export default function EconomicFreedomSimulator() {
               <p className="text-xs text-slate-400 mb-3">월별 카테고리 입력 → 연간 소비 자동 계산</p>
               {CATEGORIES.map((cat, idx) => (
                 <div key={idx} className="flex items-center gap-2 mb-2">
-                  <span className="text-xs text-slate-400 w-20 shrink-0">{cat}</span>
+                  <span className="text-xs text-slate-400 w-10 shrink-0">{cat}</span>
                   <input
                     type="number"
                     value={monthlyExpenses[idx]}
                     onChange={(e) => handleExpenseChange(idx, parseFloat(e.target.value) || 0)}
-                    className="flex-1 bg-blue-100 border border-blue-200 rounded px-2 py-1 text-slate-800 text-xs outline-none focus:border-sky-400"
+                    className="flex-1 w-12 bg-blue-100 border border-blue-200 rounded px-2 py-1 text-slate-800 text-xs outline-none focus:border-sky-400"
                   />
                   <span className="text-xs text-slate-500">$/월</span>
                 </div>
