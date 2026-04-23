@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 
-const ADMIN_USER_ID = import.meta.env.VITE_ADMIN_USER_ID;
+const ADMIN_USER_ID = "16a998ca-2ad3-4088-8ad9-65171dc0c055";
 
 export default function BlogWritePage() {
   const [title, setTitle] = useState("");
