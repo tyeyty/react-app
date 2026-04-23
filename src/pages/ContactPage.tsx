@@ -22,7 +22,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
+    <div className="max-w-4xl mx-auto p-6 lg:w-[1200px]">
       <h1 className="text-3xl font-bold mb-2">Contact Me</h1>
       <p className="text-gray-500 mb-6 text-sm">
         아래 양식을 작성하면 메일 앱이 열립니다.
