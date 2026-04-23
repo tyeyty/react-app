@@ -17,6 +17,11 @@ import MyPage from "./pages/Mypage";
 import MoneyPortfolio from "./pages/MoneyPortfolio";
 import ContactPage from "./pages/ContactPage";
 import EconomicSimulator from "./pages/EconomicSimulator";
+import BlogListPage from "./pages/BlogListPage";
+import BlogWritePage from "./pages/BlogWritePage";
+import BlogDetailPage from "./pages/BlogDetailPage";
+import BlogEditPage from "./pages/BlogEditPage";
+
 
 function App() {
   return (
@@ -37,6 +42,7 @@ function App() {
           <Route path="/simul" element={<EconomicSimulator />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/contact" element={<ContactPage />} />
+      
 
           {/* Board 라우트 */}
           <Route path="/board" element={<BoardPage />}>
@@ -47,6 +53,12 @@ function App() {
             <Route path="works/:id" element={<BoardDetailPage />} />
             <Route path="design" element={<DesignListPage />} />
             <Route path="design/:id" element={<DesignDetailPage />} />
+ 
+            {/* Blog 라우트 */}
+            <Route path="blog" element={<BlogListPage />} />
+            <Route path="blog/new" element={<BlogWritePage />} />
+            <Route path="blog/:id" element={<BlogDetailPage />} />
+            <Route path="blog/:id/edit" element={<BlogEditPage />} />
           </Route>
         </Route>
       </Routes>
