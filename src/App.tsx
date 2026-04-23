@@ -42,24 +42,22 @@ function App() {
           <Route path="/simul" element={<EconomicSimulator />} />
           <Route path="/mypage" element={<MyPage />} />
           <Route path="/contact" element={<ContactPage />} />
-      
-
+    
           {/* Board 라우트 */}
           <Route path="/board" element={<BoardPage />}>
-            {/* /board 접속 시 /board/works로 리다이렉트 */}
             <Route index element={<Navigate to="works" replace />} />
             <Route path="works" element={<WorksListPage />} />
             <Route path="works/new" element={<WorksWritePage />} />
             <Route path="works/:id" element={<BoardDetailPage />} />
             <Route path="design" element={<DesignListPage />} />
             <Route path="design/:id" element={<DesignDetailPage />} />
- 
-            {/* Blog 라우트 */}
-            <Route path="blog" element={<BlogListPage />} />
-            <Route path="blog/new" element={<BlogWritePage />} />
-            <Route path="blog/:id" element={<BlogDetailPage />} />
-            <Route path="blog/:id/edit" element={<BlogEditPage />} />
           </Route>
+
+          {/* Blog 라우트 - Board 바깥으로 분리 */}
+          <Route path="/board/blog" element={<BlogListPage />} />
+          <Route path="/board/blog/new" element={<BlogWritePage />} />
+          <Route path="/board/blog/:id" element={<BlogDetailPage />} />
+          <Route path="/board/blog/:id/edit" element={<BlogEditPage />} />
         </Route>
       </Routes>
     </Router>
