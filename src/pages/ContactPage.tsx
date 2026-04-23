@@ -1,43 +1,32 @@
 // src/pages/ContactPage.tsx
 import React, { useState } from "react";
-import emailjs from "@emailjs/browser";
+
+const CONTACT_EMAIL = "tyeyty@gmail.com";
 
 const ContactPage = () => {
-  const [formData, setFormData] = useState({ name: "", email: "", message: "", title: "" });
-  const [sending, setSending] = useState(false);
+  const [formData, setFormData] = useState({ name: "", email: "", title: "", message: "" });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setSending(true);
-    try {
-      await emailjs.send(
-        "service_gna4jlp",
-        "template_qstk7af",
-        {
-          from_name: formData.name,
-          from_email: formData.email,
-          message: formData.message,
-          title: formData.title,
-        },
-        "OZpDeo2NrKSm0lj-F"
-      );
-      alert("메시지가 전송되었습니다!");
-      setFormData({ name: "", email: "", message: "", title: "" });
-    } catch (error) {
-      console.error("EmailJS 에러:", error);
-      alert("전송 실패. 다시 시도해주세요.");
-    } finally {
-      setSending(false);
-    }
+
+    const subject = encodeURIComponent(`[Contact] ${formData.title}`);
+    const body = encodeURIComponent(
+      `From: ${formData.name} (${formData.email})\n\n${formData.message}`
+    );
+
+    window.open(`mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`, "_blank");
   };
 
   return (
     <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Contact Me</h1>
+      <h1 className="text-3xl font-bold mb-2">Contact Me</h1>
+      <p className="text-gray-500 mb-6 text-sm">
+        아래 양식을 작성하면 메일 앱이 열립니다.
+      </p>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 mb-8">
         <input
@@ -66,7 +55,7 @@ const ContactPage = () => {
           onChange={handleChange}
           className="border rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
           required
-        />        
+        />
         <textarea
           name="message"
           placeholder="Your Message"
@@ -77,15 +66,19 @@ const ContactPage = () => {
         />
         <button
           type="submit"
-          disabled={sending}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
-          {sending ? "Sending..." : "Send Message"}
+          ✉️ Send Message
         </button>
       </form>
 
-      <div className="flex flex-col md:flex-row gap-4 mb-8">
-        <a href="https://polcehhancopksfstdiq.supabase.co/storage/v1/object/public/works-images/resume_110625.pdf" download target="_blank">
+      <div className="flex flex-col md:flex-row gap-4">
+        <a
+          href="https://polcehhancopksfstdiq.supabase.co/storage/v1/object/public/works-images/resume_110625.pdf"
+          download
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center gap-2">
             📄 Resume
           </button>
