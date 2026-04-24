@@ -1,14 +1,14 @@
 // src/components/RichEditor.tsx
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import TextStyle from "@tiptap/extension-text-style";
+import { TextStyle } from "@tiptap/extension-text-style";
 import { Color } from "@tiptap/extension-color";
-import Heading from "@tiptap/extension-heading";
-import CodeBlock from "@tiptap/extension-code-block";
-import Table from "@tiptap/extension-table";
-import TableRow from "@tiptap/extension-table-row";
-import TableCell from "@tiptap/extension-table-cell";
-import TableHeader from "@tiptap/extension-table-header";
+import { Table } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table-row";
+import { TableCell } from "@tiptap/extension-table-cell";
+import { TableHeader } from "@tiptap/extension-table-header";
+import { CodeBlock } from "@tiptap/extension-code-block";
+import { Heading } from "@tiptap/extension-heading";
 import { useEffect } from "react";
 
 interface RichEditorProps {
