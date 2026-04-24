@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 import RichEditor from "../components/RichEditor";
 
-const ADMIN_USER_ID = "여기에-UUID-직접-입력"; // 본인 UUID로 교체
+const ADMIN_USER_ID = "16a998ca-2ad3-4088-8ad9-65171dc0c055"; // 본인 UUID로 교체
 
 export default function BlogWritePage() {
   const [title, setTitle] = useState("");
