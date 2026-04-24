@@ -71,8 +71,8 @@ export default function Home() {
     desc: [
       'Game titles: Monster Hunter PC version, Bio Hazard Mobile official web and mobile interfaces',
       'Implemented responsive and cross-browser user interfaces using HTML/CSS/JavaScript.',
-      'Led the full development cycle of the official corporate website, including front-end implementation and **PHP** integration.',
-      'Conducted maintenance and feature development for live **PHP**-based services, focusing on stability and new content integration. ',
+      'Led the full development cycle of the official corporate website, including front-end implementation and PHP integration.',
+      'Conducted maintenance and feature development for live PHP-based services, focusing on stability and new content integration. ',
     ],
     name: 'CAPCOM',
     region: 'Tokyo, JAPAN',
@@ -118,7 +118,7 @@ const education = [
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-white p-4">
+    <div className="flex flex-col items-center justify-center bg-white lg:w-[1100px]">
       <div className="text-center mb-8">
         <h1 className="text-4xl font-bold mb-4">Welcome!<br></br>GH's Portfolio Site</h1>
         <p className="text-2xl text-gray-700 mb-6">

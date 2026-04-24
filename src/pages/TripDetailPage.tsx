@@ -53,7 +53,7 @@ export default function TripDetailPage() {
   if (!trip) return <p>Loading trip...</p>;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
+    <div className="max-w-4xl mx-auto space-y-6 lg:w-[1100px]">
       {/* 메인이미지 */}
       {trip.map_image_url && (
         <div className="w-full h-64 md:h-96 overflow-hidden rounded-lg shadow-md">

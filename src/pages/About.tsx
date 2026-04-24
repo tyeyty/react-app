@@ -21,7 +21,7 @@ const About: React.FC = () => {
 };
 
   return (
-    <div className="lg:w-[1312px] flex flex-col items-center justify-center bg-gray-50 px-6 py-12">
+    <div className="lg:w-[1100px] flex flex-col items-center justify-center bg-gray-50 px-6 py-12">
       {/* 프로필 카드 */}
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full text-center">
         {/* 프로필 사진 */}
