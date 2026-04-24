@@ -42,7 +42,7 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
 
           {/* 좌측 로고 */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 pt-1">
             <Link to="/">
               <h1 className="text-2xl font-bold tracking-wide font-sans">GH JO</h1>
             </Link>
