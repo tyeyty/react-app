@@ -58,7 +58,7 @@ export default function BlogListPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#f7f5f0] px-6 py-12 font-[Georgia,serif] lg:w-[1200px]">
+    <div className="min-h-screen bg-[#f7f5f0] px-6 py-12 font-[Georgia,serif] lg:w-[1100px]">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="flex items-end justify-between mb-14 border-b-2 border-[#2b2421] pb-6">

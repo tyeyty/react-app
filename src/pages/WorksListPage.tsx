@@ -34,7 +34,7 @@ export default function WorksListPage() {
   };  
 
   return (
-    <div className="p-6 lg:w-[1200px]">
+    <div className="lg:w-[1100px]">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">개발 작업물</h2>
         <button

@@ -33,7 +33,7 @@ export default function DesignWorksListPage() {
   };
 
   return (
-    <div className="p-6 lg:w-[1200px] mx-auto">
+    <div className="lg:w-[1100px] mx-auto">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">디자인 작업물</h2>
         <button

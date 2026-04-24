@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 
 export default function BoardListPage() {
 return (
-    <div className="p-6 lg:w-[1200px]">
+    <div className="p-6 lg:w-[1100px]">
       <h1 className="text-xl font-bold mb-6">Works</h1>
 
       {/* 탭 메뉴 */}

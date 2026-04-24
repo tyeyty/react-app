@@ -51,7 +51,7 @@ export default function DesignProjectDetailPage() {
   };
 
   return (
-    <div className="p-6 lg:w-[1200px] mx-auto">
+    <div className="lg:w-[1100px] mx-auto">
       {/* 프로젝트 헤더 */}
       {project && (
         <div className="mb-8">
