@@ -117,7 +117,7 @@ export default function BlogDetailPage() {
 
         {/* Content */}
         <div
-          className="text-[#3d3530] text-base leading-[1.9] whitespace-pre-wrap"
+          className="text-[#3d3530] text-base leading-[1.9] blog-content"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 
