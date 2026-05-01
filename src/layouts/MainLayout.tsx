@@ -6,7 +6,7 @@ export default function MainLayout() {
   return (
     <>
       <Header />
-      <main className="mt-[60px] xl:mt-[40px] p-4">
+      <main className="mt-[60px] xl:mt-[40px]">
         <Outlet />
       </main>
     </>

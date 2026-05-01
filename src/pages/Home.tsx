@@ -1,31 +1,41 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { supabase } from "../lib/supabaseClient";
+
+interface WorkItem {
+  id: number;
+  title: string;
+  content: string;
+  image_url: string | null;
+  thumbnail: string | null;
+  created_at: string;
+}
+
+const SKILLS = [
+  { name: "HTML / CSS / JS", experience: 15 },
+  { name: "PHP",             experience: 6  },
+  { name: "SQL (MySQL)",     experience: 6  },
+  { name: "React",           experience: 3  },
+  { name: "Supabase",        experience: 3  },
+  { name: "C#.NET",          experience: 3  },
+  { name: "Figma",           experience: 3  },
+  { name: "WordPress",       experience: 2  },
+];
+
+const STATS = [
+  { num: "20+", label: "Years of Experience" },
+  { num: "3",   label: "Countries Worked" },
+  { num: "10+", label: "Products Shipped" },
+];
+
+const TECH_TAGS = [
+  "Next.js", "React", "TypeScript", "Supabase",
+  "PHP", "SQL", "C#.NET", "Figma",
+];
 
 export default function Home() {
-  const [toDo, setToDo] = useState<string>("");
-  const [toDos, setToDos] = useState<string[]>([]);
-
-  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setToDo(event.target.value);
-  };
-
-  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (toDo === "") return;
-    setToDos((currentArray) => [toDo, ...currentArray]);
-    setToDo("");
-  };
-
-
-  const skills = [
-  { name: 'Javascript & PHP', level: 100, experience: 6 },
-  { name: 'React', level: 100, experience: 3 }, 
-  { name: 'Supabase', level: 100, experience: 3 },   
-  { name: 'SQL(MYSQL)', level: 100, experience: 6 },  
-  { name: 'HTML & CSS & Javascript', level: 100, experience: 15 },
-  { name: 'Figma', level: 100, experience: 3 },
-  { name: 'C#.net', level: 100, experience: 3 },
-  { name: 'WordPress', level: 100, experience: 2 },
-];
+  const [works, setWorks] = useState<WorkItem[]>([]);
+  const [worksLoading, setWorksLoading] = useState(true);
 
   const experience = [
   {
@@ -112,83 +122,169 @@ const education = [
 
 ];
 
-
+  // 1. 데이터 페칭
+  const fetchWorks = async () => {
+    setWorksLoading(true);
+    const { data, error } = await supabase
+      .from("works")
+      .select("id, title, content, image_url, thumbnail, created_at")
+      .order("created_at", { ascending: false })
+      .limit(12); // Grid 2, 3배수에 맞게 12개 정도로 조절
+    if (!error && data) setWorks(data as WorkItem[]);
+    setWorksLoading(false);
+  };
+  
   useEffect(() => {
-    // 필요하다면 초기 로직 작성 가능 (예: supabase에서 초기 데이터 fetch)
+    fetchWorks();
   }, []);
+
+  // 2. HTML 태그 제거 및 요약 함수
+  const stripHtml = (html: string) =>
+    html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim().slice(0, 60);
 
   return (
     <div className="flex flex-col items-center justify-center bg-white lg:w-[1100px]">
-      <div className="text-center mb-8">
-      <h1 className="text-4xl font-bold mb-4">
-        Welcome!<br />
-        I'm GH, a Senior Full-Stack Engineer
-      </h1>
-      <p className="text-2xl text-gray-700 mb-6">
-        A Developer with a Design Soul & 20 Years of Industry Expertise.<br />
-        Bridging the gap between complex backend architecture and intuitive UI/UX for over two decades.
-        <br /><br />
-        Skilled in modernizing legacy systems, designing scalable architectures,<br />
-        and delivering reliable backend services with responsive, user-focused frontends.
-      </p>
-      </div>
+      <span className="inline-block text-xs font-semibold tracking-widest text-blue-600 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 mb-5 sm:mb-6 uppercase">
+        Open to New Opportunities
+      </span>      
 
-    {/* ===== Skills Section ===== */}
-      <section className="w-full max-w-7xl px-4">
-        <h2 className="text-4xl font-bold text-center mb-12 flex items-center justify-center space-x-3">
-          <svg xmlns="http://www.w3.org/2000/svg"             
-          width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            className="text-blue-500 w-10 h-10">   
-          <circle cx={12} cy={6} r={1} fill="currentColor"></circle><path fill="currentColor" d="M6 17h12v2H6zm4-5.17l2.792 2.794l3.932-3.935L18 12V8h-4l1.31 1.275l-2.519 2.519L10 9l-4 4l1.414 1.414z"></path><path fill="currentColor" d="M19 3h-3.298a5 5 0 0 0-.32-.425l-.01-.012a4.43 4.43 0 0 0-2.89-1.518a2.6 2.6 0 0 0-.964 0a4.43 4.43 0 0 0-2.89 1.518l-.01.012a5 5 0 0 0-.32.424V3H5a3.003 3.003 0 0 0-3 3v14a3.003 3.003 0 0 0 3 3h14a3.003 3.003 0 0 0 3-3V6a3.003 3.003 0 0 0-3-3m1 17a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h4.55a2.5 2.5 0 0 1 4.9 0H19a1 1 0 0 1 1 1Z"></path></svg>         
-           <span>Skills</span>
-            <svg xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            className="text-blue-500 w-10 h-10">            
-            <g fill="none"><path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"></path><path fill="currentColor" d="M12 2c.896 0 1.764.118 2.59.339l-2.126 2.125A3 3 0 0 0 12.04 5H12a7 7 0 1 0 7 7v-.04q.29-.18.535-.425l2.126-2.125c.221.826.339 1.694.339 2.59c0 5.523-4.477 10-10 10S2 17.523 2 12S6.477 2 12 2m-.414 5.017c0 .851-.042 1.714.004 2.564l-.54.54a2 2 0 1 0 2.829 2.829l.54-.54c.85.046 1.712.004 2.564.004a5 5 0 1 1-5.397-5.397m6.918-4.89a1 1 0 0 1 .617.923v1.83h1.829a1 1 0 0 1 .707 1.707L18.12 10.12a1 1 0 0 1-.707.293H15l-1.828 1.829a1 1 0 0 1-1.415-1.415L13.586 9V6.586a1 1 0 0 1 .293-.708l3.535-3.535a1 1 0 0 1 1.09-.217"></path></g></svg>           
-           </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {skills.map((skill, index) => (
-            <div key={index} className="bg-gray-100 p-6 rounded-lg shadow">
-              <h3 className="text-xl font-semibold mb-2">{skill.name}</h3>
-              <p className="text-gray-500 mb-4">Experience: {skill.experience} years</p>
-              <div className="w-full bg-gray-200 rounded-full h-4">
-                <div
-                  className={`h-4 rounded-full ${
-                    skill.level <= 30
-                      ? "bg-red-500"
-                      : skill.level <= 70
-                      ? "bg-yellow-400"
-                      : "bg-blue-500"
-                  }`}
-                  style={{ width: `${skill.level}%` }}
-                ></div>
-              </div>
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold mb-4">Welcome!<br></br>GH's Portfolio</h1>
+        <p className="text-2xl text-gray-700 mb-6">
+          Senior Full-Stack Engineer<br></br><span className="text-blue-500">with a Design Soul</span>
+          <br></br>
+          20+ years shipping products — from enterprise backends to pixel-perfect UIs.<br></br>
+        </p>
+        <p className="text-sm text-gray-400 mb-8">
+          CAPCOM · PONOS · Nomura Invest · Dalsaram
+        </p>
+        <div className="flex flex-wrap justify-center gap-2 mb-8 sm:mb-10">
+          {TECH_TAGS.map((t) => (
+            <span
+              key={t}
+              className="text-xs font-medium px-3 py-1.5 rounded-full bg-gray-100 text-gray-600 border border-gray-200"
+            >
+              {t}
+            </span>
+          ))}
+        </div>        
+
+        <div className="flex justify-center gap-3 mb-4 sm:mb-4 flex-wrap">
+          <a
+            href="#works"
+            className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg bg-gray-900 text-white text-sm font-semibold hover:bg-gray-700 transition"
+          >
+            View My Works
+          </a>
+          <a
+            href="/blog"
+            className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg border border-gray-300 text-sm font-semibold text-gray-700 hover:bg-gray-50 transition"
+          >
+            Dev Blog
+          </a>
+        </div> 
+        <div className="flex justify-center gap-8 sm:gap-12 pt-4 sm:pt-10 border-t border-gray-100 flex-wrap">
+          {STATS.map((s) => (
+            <div key={s.label} className="text-center">
+              <p className="text-2xl sm:text-3xl font-bold text-gray-900">{s.num}</p>
+              <p className="text-xs text-gray-400 mt-1">{s.label}</p>
             </div>
           ))}
+        </div>                       
+      </div>
+
+      {/* ===== 🛠 수정된 핵심: Work Section (반응형 Grid) ===== */}
+      <section id="works" className="w-full max-w-5xl p-4 pt-6 border-t border-gray-100 mx-auto">
+        <div className="flex items-end justify-between mb-8">
+          <div>
+            <p className="text-xs font-semibold tracking-widest text-gray-600 uppercase mb-1">Portfolio</p>
+            <h2 className="text-3xl sm:text-4xl font-bold text-gray-900">Featured Works</h2>
+          </div>
+          <Link to="/board/works" className="text-sm font-medium text-blue-500 hover:underline">
+            View all →
+          </Link>
         </div>
-      </section>
+
+        {worksLoading ? (
+          /* 로딩 스켈레톤: 모바일 2단, PC 3단 */
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {[1, 2, 3, 4, 5, 6].map((i) => (
+              <div key={i} className="rounded-xl border border-gray-100 overflow-hidden animate-pulse">
+                <div className="w-full aspect-square bg-gray-100" />
+                <div className="p-4 space-y-2">
+                  <div className="h-4 bg-gray-100 rounded w-3/4" />
+                  <div className="h-3 bg-gray-100 rounded w-full" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : works.length === 0 ? (
+          <p className="text-gray-400 text-sm text-center py-20">등록된 작업물이 없습니다.</p>
+        ) : (
+          /* 🚀 실제 카드 리스트: grid-cols-2 (모바일), lg:grid-cols-3 (PC) */
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {works.map((item) => (
+              <Link
+                key={item.id}
+                to={`/board/works/${item.id}`}
+                className="group flex flex-col rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white"
+              >
+                <div className="w-full aspect-square overflow-hidden bg-gray-50">
+                  {item.thumbnail || item.image_url ? (
+                    <img
+                      src={item.thumbnail ?? item.image_url!}
+                      alt={item.title}
+                      className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                      <span className="text-gray-300 text-xs">No Image</span>
+                    </div>
+                  )}
+                </div>
+                <div className="p-3 sm:p-5 flex flex-col flex-1">
+                  <h3 className="font-bold text-sm sm:text-base text-gray-900 mb-1.5 truncate group-hover:text-blue-600 transition-colors">
+                    {item.title}
+                  </h3>
+                  <p className="hidden sm:line-clamp-2 text-xs text-gray-500 leading-relaxed mb-4">
+                    {stripHtml(item.content)}
+                  </p>
+                  <div className="mt-auto pt-3 border-t border-gray-50 flex justify-between items-center">
+                    <span className="text-[12px] sm:text-xs text-gray-400">
+                      {new Date(item.created_at).toLocaleDateString("ko-KR")}
+                    </span>
+                    <span className="text-[10px] font-bold text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                      VIEW →
+                    </span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        )}
+      </section>          
 
     {/* ===== Experience Section ===== */}
-      <section className="w-full max-w-7xl px-4 py-16 bg-gray-50">
-        <h2 className="text-4xl font-bold text-center mb-12 flex items-center justify-center space-x-3">
-          <svg xmlns="http://www.w3.org/2000/svg"             
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            className="text-blue-500 w-10 h-10">
-          <path fill="currentColor" d="M18 15h-2v2h2m0-6h-2v2h2m2 6h-8v-2h2v-2h-2v-2h2v-2h-2V9h8M10 7H8V5h2m0 6H8V9h2m0 6H8v-2h2m0 6H8v-2h2M6 7H4V5h2m0 6H4V9h2m0 6H4v-2h2m0 6H4v-2h2m6-10V3H2v18h20V7z"></path></svg>          
-          <span>Experience & Companies</span>
-          <svg xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            className="text-blue-500 w-10 h-10">          
-          <path fill="currentColor" d="M4 21q-.825 0-1.412-.587T2 19V8q0-.825.588-1.412T4 6h4V4q0-.825.588-1.412T10 2h4q.825 0 1.413.588T16 4v2h4q.825 0 1.413.588T22 8v11q0 .825-.587 1.413T20 21zm6-15h4V4h-4z"></path></svg>          
-        </h2>
+      <section className="w-full max-w-7xl p-4 pt-6 bg-gray-50">
+      <h2 className="text-4xl font-bold text-center mb-4 flex items-center justify-center gap-2">         
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 24 24" 
+          className="text-blue-500 w-8 h-8"
+        >
+          <path fill="currentColor" d="M18 15h-2v2h2m0-6h-2v2h2m2 6h-8v-2h2v-2h-2v-2h2v-2h-2V9h8M10 7H8V5h2m0 6H8V9h2m0 6H8v-2h2m0 6H8v-2h2M6 7H4V5h2m0 6H4V9h2m0 6H4v-2h2m0 6H4v-2h2m6-10V3H2v18h20V7z"></path>
+        </svg>
+
+        <span className="text-3xl md:text-4xl">Experience/Companies</span>
+
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 24 24" 
+          className="text-blue-500 w-8 h-8"
+        >
+          <path fill="currentColor" d="M4 21q-.825 0-1.412-.587T2 19V8q0-.825.588-1.412T4 6h4V4q0-.825.588-1.412T10 2h4q.825 0 1.413.588T16 4v2h4q.825 0 1.413.588T22 8v11q0 .825-.587 1.413T20 21zm6-15h4V4h-4z"></path>
+        </svg>
+      </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {experience.map((item, index) => (
             <div key={index} className="bg-white p-6 border border-gray-300 rounded-lg shadow hover:shadow-lg transition">
@@ -210,8 +306,8 @@ const education = [
       </section>
 
       {/* ===== Education Section ===== */}
-      <section className="w-full max-w-7xl px-4 py-16 bg-white">
-        <h2 className="text-4xl font-bold text-center mb-12 flex items-center justify-center space-x-3">
+      <section className="w-full max-w-7xl p-4 pt-6 bg-white">
+        <h2 className="text-4xl font-bold text-center mb-4 flex items-center justify-center space-x-3">
          <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -261,35 +357,6 @@ const education = [
           ))}
         </div>
       </section>
-
-
-      {/* ===== To Dos Section ===== */}
-      <div className="w-full max-w-md pt-2">
-        <h2 className="text-2xl font-semibold mb-4">My To Dos ({toDos.length})</h2>
-        <form onSubmit={onSubmit} className="flex mb-4">
-          <input
-            className="flex-1 border rounded-l px-3 py-2"
-            onChange={onChange}
-            value={toDo}
-            type="text"
-            placeholder="Write your to do..."
-          />
-          <button
-            type="submit"
-            className="bg-blue-500 text-white px-4 py-2 rounded-r"
-          >
-            Add
-          </button>
-        </form>
-
-        <ul>
-          {toDos.map((item, index) => (
-            <li key={index} className="border-b py-2">{item}</li>
-          ))}
-        </ul>
-      </div>
-
-
 
     </div>
   );
