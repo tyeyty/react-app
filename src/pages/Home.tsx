@@ -227,7 +227,7 @@ const education = [
               <Link
                 key={item.id}
                 to={`/board/works/${item.id}`}
-                className="group flex flex-col rounded-2xl border border-gray-100 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white"
+                className="group flex flex-col rounded-2xl border border-gray-300 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white"
               >
                 <div className="w-full aspect-square overflow-hidden bg-gray-50">
                   {item.thumbnail || item.image_url ? (
@@ -243,14 +243,14 @@ const education = [
                   )}
                 </div>
                 <div className="p-3 sm:p-5 flex flex-col flex-1">
-                  <h3 className="font-bold text-sm sm:text-base text-gray-900 mb-1.5 truncate group-hover:text-blue-600 transition-colors">
+                  <h3 className="font-bold text-base sm:text-lg text-gray-900 mb-1.5 truncate group-hover:text-blue-600 transition-colors">
                     {item.title}
                   </h3>
-                  <p className="hidden sm:line-clamp-2 text-xs text-gray-500 leading-relaxed mb-4">
+                  <p className="hidden sm:line-clamp-2 text-sm text-gray-500 leading-relaxed mb-4">
                     {stripHtml(item.content)}
                   </p>
                   <div className="mt-auto pt-3 border-t border-gray-50 flex justify-between items-center">
-                    <span className="text-[12px] sm:text-xs text-gray-400">
+                    <span className="text-[12px] sm:text-xs text-gray-600">
                       {new Date(item.created_at).toLocaleDateString("ko-KR")}
                     </span>
                     <span className="text-[10px] font-bold text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity">
