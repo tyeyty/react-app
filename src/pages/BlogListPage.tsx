@@ -63,9 +63,6 @@ export default function BlogListPage() {
         {/* Header */}
         <div className="flex items-end justify-between mb-14 border-b-2 border-[#2b2421] pb-6">
           <div>
-            <p className="text-xs tracking-[0.25em] text-[#9b8e84] uppercase mb-2">
-              Personal Journal
-            </p>
             <h1 className="text-4xl font-bold text-[#2b2421] leading-tight">
               Blog
             </h1>

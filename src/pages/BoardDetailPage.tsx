@@ -75,17 +75,26 @@ export default function BoardDetailPage() {
   
     return (
       <div className="p-6 lg:w-[1100px]">
-        <button
-          onClick={() => navigate(-1)}
-          className="text-sm text-blue-600 hover:underline mb-4"
-        >
-          ← Back to list
-        </button>
+        <div className="flex justify-between items-center px-4 mb-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-sm text-blue-600 hover:underline mb-4"
+          >
+            ← Back to list
+          </button>
+
+          <button
+            onClick={() => navigate(`/board/works/${id}/edit`)}
+            className="text-sm text-gray-600 border px-3 py-1 rounded hover:bg-gray-100"
+          >
+            수정
+          </button>   
+        </div>       
   
         <h1 className="text-2xl font-bold mb-2">{post.title}</h1>
         <div className="text-sm text-gray-500 mb-6">
           {formattedDate}
-        </div>
+        </div>      
 
         {post.image_url && (
           <div className="mb-6">

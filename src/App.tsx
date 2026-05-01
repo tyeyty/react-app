@@ -21,6 +21,7 @@ import BlogListPage from "./pages/BlogListPage";
 import BlogWritePage from "./pages/BlogWritePage";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import BlogEditPage from "./pages/BlogEditPage";
+import WorksEditPage from "./pages/WorksEditPage";
 
 
 function App() {
@@ -54,6 +55,7 @@ function App() {
           </Route>
 
           {/* Blog 라우트 - Board 바깥으로 분리 */}
+          <Route path="/board/works/:id/edit" element={<WorksEditPage />} />
           <Route path="/board/blog" element={<BlogListPage />} />
           <Route path="/board/blog/new" element={<BlogWritePage />} />
           <Route path="/board/blog/:id" element={<BlogDetailPage />} />
