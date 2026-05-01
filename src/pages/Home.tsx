@@ -120,13 +120,17 @@ const education = [
   return (
     <div className="flex flex-col items-center justify-center bg-white lg:w-[1100px]">
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">Welcome!<br></br>GH's Portfolio Site</h1>
-        <p className="text-2xl text-gray-700 mb-6">
-          I’m a Full-Stack Software Engineer with 5+ years of experience building<br></br>
-          and maintaining production web platforms using PHP, JavaScript, React, and Supabase.<br></br><br></br>
-          Skilled in modernizing legacy systems, designing scalable architectures,<br></br>
-          and delivering reliable backend services with responsive, user-focused frontends.<br></br>
-        </p>
+      <h1 className="text-4xl font-bold mb-4">
+        Welcome!<br />
+        I'm GH, a Senior Full-Stack Engineer
+      </h1>
+      <p className="text-2xl text-gray-700 mb-6">
+        A Developer with a Design Soul & 20 Years of Industry Expertise.<br />
+        Bridging the gap between complex backend architecture and intuitive UI/UX for over two decades.
+        <br /><br />
+        Skilled in modernizing legacy systems, designing scalable architectures,<br />
+        and delivering reliable backend services with responsive, user-focused frontends.
+      </p>
       </div>
 
     {/* ===== Skills Section ===== */}
