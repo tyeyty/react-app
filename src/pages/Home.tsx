@@ -156,7 +156,7 @@ const education = [
           20+ years shipping products — from enterprise backends to pixel-perfect UIs.<br></br>
         </p>
         <p className="text-sm text-gray-400 mb-8">
-          CAPCOM · PONOS · Nomura Invest
+          CAPCOM · PONOS · Nomura Invest · US-based Local Community Platform
         </p>
         <div className="flex flex-wrap justify-center gap-2 mb-8 sm:mb-10">
           {TECH_TAGS.map((t) => (
