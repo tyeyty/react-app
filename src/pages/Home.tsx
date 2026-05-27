@@ -46,7 +46,7 @@ export default function Home() {
       'Managed and optimized SQL databases to enhance application performance and data integrity.',
       'Coordinated development initiatives and project planning across teams.',
     ],
-    name: 'Dalsaram.com',
+    name: '***.com',
     region: 'Dallas in TX, USA',
   },   
      {
@@ -156,7 +156,7 @@ const education = [
           20+ years shipping products — from enterprise backends to pixel-perfect UIs.<br></br>
         </p>
         <p className="text-sm text-gray-400 mb-8">
-          CAPCOM · PONOS · Nomura Invest · Dalsaram
+          CAPCOM · PONOS · Nomura Invest
         </p>
         <div className="flex flex-wrap justify-center gap-2 mb-8 sm:mb-10">
           {TECH_TAGS.map((t) => (
