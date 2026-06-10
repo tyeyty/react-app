@@ -8,10 +8,29 @@ export default function PasswordGate({ children }: { children: React.ReactNode }
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
   const [checking, setChecking] = useState(true);
+  const VALID_TOKENS = ["flex777", "hunt999"];
 
   useEffect(() => {
+    // 기존 세션 체크
     const saved = sessionStorage.getItem(STORAGE_KEY);
-    if (saved === "true") setUnlocked(true);
+    if (saved === "true") {
+      setUnlocked(true);
+      setChecking(false);
+      return;
+    }
+
+    // 쿼리 토큰 체크
+    const params = new URLSearchParams(window.location.search);
+    const pass = params.get("pass");
+    if (pass && VALID_TOKENS.includes(pass)) {
+      sessionStorage.setItem(STORAGE_KEY, "true");
+      setUnlocked(true);
+      // URL에서 토큰 제거 (주소창 깔끔하게)
+      const url = new URL(window.location.href);
+      url.searchParams.delete("pass");
+      window.history.replaceState({}, "", url.toString());
+    }
+
     setChecking(false);
   }, []);
 
