@@ -112,12 +112,12 @@ export default function Header() {
                 >
                   Login
                 </Link>
-                <Link
+                {/*<Link
                   to="/signup"
                   className="px-3 py-1 border rounded text-gray-700 hover:bg-gray-100 text-xs transition-colors"
                 >
                   Signup
-                </Link>
+                </Link>*/}
               </div>
             )}
           </nav>
