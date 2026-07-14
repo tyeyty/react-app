@@ -1,5 +1,4 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import PasswordGate from "./components/PasswordGate";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
@@ -27,7 +26,6 @@ import WorksEditPage from "./pages/WorksEditPage";
 
 function App() {
   return (
-    <PasswordGate>
       <Router>
         <Routes>
           {/* 로그인/회원가입은 Header 없이 */}
@@ -65,7 +63,6 @@ function App() {
           </Route>
         </Routes>
       </Router>
-    </PasswordGate>
   );
 }
 
