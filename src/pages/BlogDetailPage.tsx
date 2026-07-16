@@ -100,16 +100,6 @@ export default function BlogDetailPage() {
         
           <div className="flex items-center gap-1 border border-[#ddd8d0] rounded-full p-1">
             <button
-              onClick={() => setLang("ko")}
-              className={`px-3 py-1 text-xs tracking-widest rounded-full transition-colors ${
-                lang === "ko"
-                  ? "bg-[#2b2421] text-[#f7f5f0]"
-                  : "text-[#9b8e84] hover:text-[#2b2421]"
-              }`}
-            >
-              KR
-            </button>
-            <button
               onClick={() => hasEnglish && setLang("en")}
               disabled={!hasEnglish}
               title={!hasEnglish ? "영어 번역 준비중" : undefined}
@@ -122,6 +112,16 @@ export default function BlogDetailPage() {
               }`}
             >
               EN
+            </button>            
+            <button
+              onClick={() => setLang("ko")}
+              className={`px-3 py-1 text-xs tracking-widest rounded-full transition-colors ${
+                lang === "ko"
+                  ? "bg-[#2b2421] text-[#f7f5f0]"
+                  : "text-[#9b8e84] hover:text-[#2b2421]"
+              }`}
+            >
+              KR
             </button>
           </div>
         </div>
