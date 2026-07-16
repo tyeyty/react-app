@@ -56,10 +56,6 @@ export default function BlogDetailPage() {
   };
 
   const isAdmin = userId === ADMIN_USER_ID;
-  // isAdmin 선언 아래에 추가
-  const hasEnglish = !!post.content_en;
-  const displayTitle = lang === "en" && post.title_en ? post.title_en : post.title;
-  const displayContent = lang === "en" && post.content_en ? post.content_en : post.content;  
 
   if (loading) {
     return (
@@ -84,6 +80,11 @@ export default function BlogDetailPage() {
       </div>
     );
   }
+
+  // isAdmin 선언 아래에 추가
+  const hasEnglish = !!post.content_en;
+  const displayTitle = lang === "en" && post.title_en ? post.title_en : post.title;
+  const displayContent = lang === "en" && post.content_en ? post.content_en : post.content;    
 
   return (
     <div className="min-h-screen bg-[#f7f5f0] px-6 py-12 font-[Georgia,serif]">
