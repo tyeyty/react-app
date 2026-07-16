@@ -7,6 +7,8 @@ interface BlogPost {
   id: number;
   title: string;
   content: string;
+  title_en: string | null;
+  content_en: string | null;
   thumbnail: string | null;
   image_url: string | null;
   created_at: string;
@@ -20,6 +22,7 @@ export default function BlogListPage() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [lang, setLang] = useState<"ko" | "en">("en");
 
   useEffect(() => {
     const init = async () => {
@@ -47,6 +50,13 @@ export default function BlogListPage() {
     return plain.length > 100 ? plain.slice(0, 100) + "…" : plain;
   };
 
+  // getExcerpt 아래에 헬퍼 추가
+  const getDisplayTitle = (post: BlogPost) =>
+    lang === "en" && post.title_en ? post.title_en : post.title;
+  
+  const getDisplayContent = (post: BlogPost) =>
+    lang === "en" && post.content_en ? post.content_en : post.content;  
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f7f5f0]">
@@ -60,21 +70,47 @@ export default function BlogListPage() {
   return (
     <div className="min-h-screen bg-[#f7f5f0] px-6 py-12 font-[Georgia,serif] lg:w-[1100px]">
       <div className="max-w-4xl mx-auto">
-        {/* Header */}
+        {/* Header 블록 교체: 기존 flex items-end justify-between 안에 언어 토글 추가 */}
         <div className="flex items-end justify-between mb-14 border-b-2 border-[#2b2421] pb-6">
           <div>
             <h1 className="text-4xl font-bold text-[#2b2421] leading-tight">
               Blog
             </h1>
           </div>
-          {isAdmin && (
-            <button
-              onClick={() => navigate("/board/blog/new")}
-              className="bg-[#2b2421] text-[#f7f5f0] px-5 py-2.5 text-sm tracking-widest uppercase hover:bg-[#4a3f38] transition-colors"
-            >
-              + Write
-            </button>
-          )}
+        
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1 border border-[#ddd8d0] rounded-full p-1">
+              <button
+                onClick={() => setLang("en")}
+                className={`px-3 py-1 text-xs tracking-widest rounded-full transition-colors ${
+                  lang === "en"
+                    ? "bg-[#2b2421] text-[#f7f5f0]"
+                    : "text-[#9b8e84] hover:text-[#2b2421]"
+                }`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => setLang("ko")}
+                className={`px-3 py-1 text-xs tracking-widest rounded-full transition-colors ${
+                  lang === "ko"
+                    ? "bg-[#2b2421] text-[#f7f5f0]"
+                    : "text-[#9b8e84] hover:text-[#2b2421]"
+                }`}
+              >
+                KR
+              </button>
+            </div>
+        
+            {isAdmin && (
+              <button
+                onClick={() => navigate("/board/blog/new")}
+                className="bg-[#2b2421] text-[#f7f5f0] px-5 py-2.5 text-sm tracking-widest uppercase hover:bg-[#4a3f38] transition-colors"
+              >
+                + Write
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Post List */}
@@ -117,10 +153,10 @@ export default function BlogListPage() {
                     })}
                   </p>
                   <h2 className="text-xl font-semibold text-[#2b2421] group-hover:text-[#7a5c4f] transition-colors leading-snug">
-                    {post.title}
+                    {getDisplayTitle(post)}
                   </h2>
                   <p className="text-sm text-[#7a7065] leading-relaxed line-clamp-2">
-                    {getExcerpt(post.content)}
+                    {getExcerpt(getDisplayContent(post))}
                   </p>
                 </div>
 
