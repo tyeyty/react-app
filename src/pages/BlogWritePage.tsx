@@ -8,6 +8,8 @@ const ADMIN_USER_ID = "16a998ca-2ad3-4088-8ad9-65171dc0c055"; // 본인 UUID로 
 
 export default function BlogWritePage() {
   const [title, setTitle] = useState("");
+  const [titleEn, setTitleEn] = useState("");
+  const [contentEn, setContentEn] = useState("");
   const [content, setContent] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -57,7 +59,15 @@ export default function BlogWritePage() {
     }
 
     const { error } = await supabase.from("blog_posts").insert([
-      { title, content, image_url: imageUrl, thumbnail: imageUrl, created_by: user.id },
+      {
+        title,
+        content,
+        title_en: titleEn,
+        content_en: contentEn,
+        image_url: imageUrl,
+        thumbnail: imageUrl,
+        created_by: user.id,
+      },
     ]);
 
     if (error) {
@@ -89,12 +99,33 @@ export default function BlogWritePage() {
               className="w-full border border-[#ddd8d0] bg-white px-4 py-3 text-[#2b2421] focus:outline-none focus:border-[#2b2421] transition-colors text-base"
             />
           </div>
+          {/* Title 필드 아래에 추가 */}
+          <div>
+            <label className="block text-xs tracking-widest uppercase text-[#9b8e84] mb-2">
+              Title (English)
+            </label>
+            <input
+              type="text"
+              placeholder="영어 제목 (선택사항)"
+              value={titleEn}
+              onChange={(e) => setTitleEn(e.target.value)}
+              className="w-full border border-[#ddd8d0] bg-white px-4 py-3 text-[#2b2421] focus:outline-none focus:border-[#2b2421] transition-colors text-base"
+            />
+          </div>
+          
 
           {/* 에디터 */}
           <div>
             <label className="block text-xs tracking-widest uppercase text-[#9b8e84] mb-2">Content</label>
             <RichEditor content={content} onChange={setContent} />
           </div>
+          {/* Content 에디터 아래에 추가 */}
+          <div>
+            <label className="block text-xs tracking-widest uppercase text-[#9b8e84] mb-2">
+              Content (English)
+            </label>
+            <RichEditor content={contentEn} onChange={setContentEn} />
+          </div>          
 
           {/* 커버 이미지 */}
           <div>
