@@ -87,7 +87,7 @@ export default function BlogDetailPage() {
   const displayContent = lang === "en" && post.content_en ? post.content_en : post.content;    
 
   return (
-    <div className="min-h-screen bg-[#f7f5f0] px-6 py-12 font-[Georgia,serif]">
+    <div className="min-h-screen bg-[#f7f5f0] px-6 py-12 font-[Georgia,serif] lg:w-[1100px]">
       <div className="max-w-3xl mx-auto">
         {/* Back + Language Toggle: 기존 Back 링크 블록을 아래로 교체 */}
         <div className="flex items-center justify-between mb-10">
