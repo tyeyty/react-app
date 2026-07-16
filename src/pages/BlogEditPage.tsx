@@ -10,6 +10,8 @@ export default function BlogEditPage() {
   const { id } = useParams<{ id: string }>();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [titleEn, setTitleEn] = useState("");
+  const [contentEn, setContentEn] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [existingImageUrl, setExistingImageUrl] = useState<string | null>(null);
@@ -40,6 +42,8 @@ export default function BlogEditPage() {
     if (!error && data) {
       setTitle(data.title);
       setContent(data.content);
+      setTitleEn(data.title_en || "");
+      setContentEn(data.content_en || "");
       setExistingImageUrl(data.image_url);
       setPreviewUrl(data.image_url);
     }
@@ -78,7 +82,14 @@ export default function BlogEditPage() {
 
     const { error } = await supabase
       .from("blog_posts")
-      .update({ title, content, image_url: imageUrl, thumbnail: imageUrl })
+      .update({
+        title,
+        content,
+        title_en: titleEn,
+        content_en: contentEn,
+        image_url: imageUrl,
+        thumbnail: imageUrl,
+      })
       .eq("id", id);
 
     if (error) {
@@ -110,12 +121,31 @@ export default function BlogEditPage() {
               className="w-full border border-[#ddd8d0] bg-white px-4 py-3 text-[#2b2421] focus:outline-none focus:border-[#2b2421] transition-colors text-base"
             />
           </div>
+          <div>
+            <label className="block text-xs tracking-widest uppercase text-[#9b8e84] mb-2">
+              Title (English)
+            </label>
+            <input
+              type="text"
+              value={titleEn}
+              onChange={(e) => setTitleEn(e.target.value)}
+              placeholder="영어 제목 (선택사항)"
+              className="w-full border border-[#ddd8d0] bg-white px-4 py-3 text-[#2b2421] focus:outline-none focus:border-[#2b2421] transition-colors text-base"
+            />
+          </div>          
 
           <div>
             <label className="block text-xs tracking-widest uppercase text-[#9b8e84] mb-2">Content</label>
             {/* content가 로드된 후에만 에디터 렌더링 */}
             <RichEditor content={content} onChange={setContent} />
           </div>
+
+          <div>
+            <label className="block text-xs tracking-widest uppercase text-[#9b8e84] mb-2">
+              Content (English)
+            </label>
+            <RichEditor content={contentEn} onChange={setContentEn} />
+          </div>          
 
           <div>
             <label className="block text-xs tracking-widest uppercase text-[#9b8e84] mb-2">Cover Image</label>
