@@ -3,10 +3,13 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 
+// interface 변경
 interface BlogPost {
   id: number;
   title: string;
   content: string;
+  title_en: string | null;
+  content_en: string | null;
   image_url: string | null;
   thumbnail: string | null;
   created_at: string;
@@ -21,6 +24,7 @@ export default function BlogDetailPage() {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [lang, setLang] = useState<"ko" | "en">("ko");
 
   useEffect(() => {
     const init = async () => {
@@ -52,6 +56,10 @@ export default function BlogDetailPage() {
   };
 
   const isAdmin = userId === ADMIN_USER_ID;
+  // isAdmin 선언 아래에 추가
+  const hasEnglish = !!post.content_en;
+  const displayTitle = lang === "en" && post.title_en ? post.title_en : post.title;
+  const displayContent = lang === "en" && post.content_en ? post.content_en : post.content;  
 
   if (loading) {
     return (
@@ -80,13 +88,42 @@ export default function BlogDetailPage() {
   return (
     <div className="min-h-screen bg-[#f7f5f0] px-6 py-12 font-[Georgia,serif]">
       <div className="max-w-3xl mx-auto">
-        {/* Back */}
-        <Link
-          to="/board/blog"
-          className="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-[#9b8e84] hover:text-[#2b2421] transition-colors mb-10"
-        >
-          ← Blog
-        </Link>
+        {/* Back + Language Toggle: 기존 Back 링크 블록을 아래로 교체 */}
+        <div className="flex items-center justify-between mb-10">
+          <Link
+            to="/board/blog"
+            className="inline-flex items-center gap-2 text-xs tracking-widest uppercase text-[#9b8e84] hover:text-[#2b2421] transition-colors"
+          >
+            ← Blog
+          </Link>
+        
+          <div className="flex items-center gap-1 border border-[#ddd8d0] rounded-full p-1">
+            <button
+              onClick={() => setLang("ko")}
+              className={`px-3 py-1 text-xs tracking-widest rounded-full transition-colors ${
+                lang === "ko"
+                  ? "bg-[#2b2421] text-[#f7f5f0]"
+                  : "text-[#9b8e84] hover:text-[#2b2421]"
+              }`}
+            >
+              KR
+            </button>
+            <button
+              onClick={() => hasEnglish && setLang("en")}
+              disabled={!hasEnglish}
+              title={!hasEnglish ? "영어 번역 준비중" : undefined}
+              className={`px-3 py-1 text-xs tracking-widest rounded-full transition-colors ${
+                lang === "en"
+                  ? "bg-[#2b2421] text-[#f7f5f0]"
+                  : hasEnglish
+                  ? "text-[#9b8e84] hover:text-[#2b2421]"
+                  : "text-[#ddd8d0] cursor-not-allowed"
+              }`}
+            >
+              EN
+            </button>
+          </div>
+        </div>
 
         {/* Cover Image */}
         {(post.image_url || post.thumbnail) && (
@@ -109,7 +146,7 @@ export default function BlogDetailPage() {
             })}
           </p>
           <h1 className="text-3xl md:text-4xl font-bold text-[#2b2421] leading-tight">
-            {post.title}
+            {displayTitle}
           </h1>
         </div>
 
@@ -118,7 +155,7 @@ export default function BlogDetailPage() {
         {/* Content */}
         <div
           className="text-[#3d3530] text-base leading-[1.9] blog-content"
-          dangerouslySetInnerHTML={{ __html: post.content }}
+          dangerouslySetInnerHTML={{ __html: displayContent }}
         />
 
         {/* Admin Actions */}
