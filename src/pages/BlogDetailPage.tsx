@@ -24,7 +24,7 @@ export default function BlogDetailPage() {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [lang, setLang] = useState<"ko" | "en">("ko");
+  const [lang, setLang] = useState<"ko" | "en">("en");
 
   useEffect(() => {
     const init = async () => {
