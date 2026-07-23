@@ -47,7 +47,7 @@ h1 {
 .blog-content h1 { font-size: 2em; font-weight: 700; margin: 0.8em 0 0.4em; }
 .blog-content h2 { font-size: 1.5em; font-weight: 600; margin: 0.8em 0 0.4em; }
 .blog-content h3 { font-size: 1.2em; font-weight: 600; margin: 0.8em 0 0.4em; }
-.blog-content p { margin: 0 0 1em; }
+.blog-content p { margin: 0 0 0.5em; }
 
 /* 추가: 빈 문단(엔터로 만든 빈 줄)이 마진에 먹히지 않도록 실제 높이를 줌 */
 .blog-content p:empty {
