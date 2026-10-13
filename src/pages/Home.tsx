@@ -1,4 +1,5 @@
 import "./home-aurora.css";
+import AuroraHero from "../components/AuroraHero";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
@@ -144,10 +145,10 @@ const education = [
     html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim().slice(0, 60);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-white lg:w-[1100px]">
-      <section className="portfolio-hero relative isolate w-full overflow-hidden flex flex-col items-center" onPointerMove={(event) => { if (event.pointerType !== "mouse") return; const rect = event.currentTarget.getBoundingClientRect(); event.currentTarget.style.setProperty("--pointer-x", `${((event.clientX - rect.left) / rect.width - 0.5) * 36}px`); event.currentTarget.style.setProperty("--pointer-y", `${((event.clientY - rect.top) / rect.height - 0.5) * 26}px`); }} onPointerLeave={(event) => { event.currentTarget.style.setProperty("--pointer-x", "0px"); event.currentTarget.style.setProperty("--pointer-y", "0px"); }}>
-        <div className="portfolio-aurora" aria-hidden="true"><span/><span/><span/></div>
-        <div className="relative z-10 flex flex-col items-center w-full pt-6 sm:pt-10">
+    <div className="flex flex-col items-center justify-center bg-white w-full">
+      <section className="portfolio-hero relative isolate w-screen left-1/2 -translate-x-1/2 overflow-hidden flex flex-col items-center">
+        <AuroraHero />
+        <div className="relative z-10 flex flex-col items-center w-full max-w-6xl px-4 pt-6 sm:pt-10">
       <span className="inline-block text-xs font-semibold tracking-widest text-blue-600 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 mb-5 sm:mb-6 uppercase">
         Open to New Opportunities
       </span>      
