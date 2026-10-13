@@ -1,14 +1,5 @@
-/* Scoped hero-only ambient aurora; no extra runtime dependency. */
-.portfolio-hero { --pointer-x: 0px; --pointer-y: 0px; }
-.portfolio-aurora { position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:-1; background:linear-gradient(180deg,#fff 0%,#fafdff 48%,#fff 100%); }
-.portfolio-aurora span { position:absolute; width:75%; height:60%; border-radius:50%; filter:blur(65px); opacity:.34; will-change:transform; transition:transform 1.1s cubic-bezier(.2,.8,.2,1); }
-.portfolio-aurora span:nth-child(1) { left:-18%; top:5%; background:radial-gradient(ellipse,#7fe8d5 0%,#a7f3d0 35%,transparent 72%); transform:translate(var(--pointer-x),var(--pointer-y)) rotate(-15deg); animation:aurora-breathe-a 14s ease-in-out infinite alternate; }
-.portfolio-aurora span:nth-child(2) { right:-18%; top:12%; background:radial-gradient(ellipse,#82caff 0%,#bfdbfe 38%,transparent 72%); transform:translate(calc(var(--pointer-x) * -1),var(--pointer-y)); animation:aurora-breathe-b 17s ease-in-out infinite alternate; }
-.portfolio-aurora span:nth-child(3) { left:23%; bottom:-23%; background:radial-gradient(ellipse,#a7f3d0 0%,#d9f99d 40%,transparent 73%); opacity:.22; animation:aurora-breathe-c 20s ease-in-out infinite alternate; }
-@keyframes aurora-breathe-a { from { margin-top:-14px; margin-left:-12px; } to { margin-top:28px; margin-left:35px; } }
-@keyframes aurora-breathe-b { from { margin-top:22px; margin-right:-18px; } to { margin-top:-22px; margin-right:34px; } }
-@keyframes aurora-breathe-c { from { margin-left:-24px; margin-bottom:0; } to { margin-left:24px; margin-bottom:32px; } }
+.portfolio-hero { background:linear-gradient(180deg,#fff 0%,#f9fcff 48%,#fff 100%); }
+.portfolio-aurora-canvas { position:absolute; inset:0; width:100%; height:100%; z-index:-1; pointer-events:none; opacity:.85; }
 .portfolio-headline { animation:portfolio-title-enter .75s ease-out both; }
 @keyframes portfolio-title-enter { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
-@media (max-width:767px) { .portfolio-aurora span { filter:blur(45px); opacity:.23; animation-duration:30s; } .portfolio-aurora span:nth-child(2) { animation-duration:34s; } .portfolio-aurora span:nth-child(3) { animation-duration:40s; } }
-@media (prefers-reduced-motion:reduce) { .portfolio-aurora span, .portfolio-headline { animation:none !important; transition:none !important; } }
+@media (prefers-reduced-motion:reduce) { .portfolio-headline { animation:none !important; } }
