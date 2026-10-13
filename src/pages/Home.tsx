@@ -1,3 +1,5 @@
+import "./home-aurora.css";
+import Aurora from "../components/AuroraOriginal";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
@@ -143,17 +145,18 @@ const education = [
     html.replace(/<[^>]+>/g, "").replace(/\s+/g, " ").trim().slice(0, 60);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-white lg:w-[1100px]">
+    <div className="flex flex-col items-center justify-center bg-white w-full">
+      <section className="portfolio-hero relative isolate w-screen left-1/2 -translate-x-1/2 overflow-hidden flex flex-col items-center">
+        <div className="portfolio-aurora-layer" aria-hidden="true"><Aurora colorStops={["#5227FF", "#7cff67", "#5227FF"]} direction="top" height={0.45} amplitude={1} blend={0.5} glow={0.6} scale={1} speed={1} brightness={1} layers={1} opacity={1} mouseInteraction intro lightMode={false} /></div>
+        <div className="relative z-10 flex flex-col items-center w-full max-w-6xl px-4 pt-6 sm:pt-10">
       <span className="inline-block text-xs font-semibold tracking-widest text-blue-600 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 mb-5 sm:mb-6 uppercase">
         Open to New Opportunities
       </span>      
 
       <div className="text-center mb-8">
-        <h1 className="text-4xl font-bold mb-4">Welcome!<br></br>GH's Portfolio</h1>
+        <h1 className="portfolio-headline text-4xl sm:text-5xl font-bold mb-4 text-gray-900 leading-tight">Building Digital Experiences<br/><span className="text-blue-500">with Code &amp; Design.</span></h1>
         <p className="text-2xl text-gray-700 mb-6">
-          Senior Full-Stack Engineer<br></br><span className="text-blue-500">with a Design Soul</span>
-          <br></br>
-          20+ years shipping products — from enterprise backends to pixel-perfect UIs.<br></br>
+          Senior Full-Stack Engineer · 20+ Years of Experience
         </p>
         <p className="text-sm text-gray-400 mb-8">
           CAPCOM · PONOS · Nomura Invest · US-based Local Community Platform
@@ -192,6 +195,9 @@ const education = [
           ))}
         </div>                       
       </div>
+
+      </div>
+      </section>
 
       {/* ===== 🛠 수정된 핵심: Work Section (반응형 Grid) ===== */}
       <section id="works" className="w-full max-w-5xl p-4 pt-6 border-t border-gray-100 mx-auto">
