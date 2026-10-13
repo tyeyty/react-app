@@ -1,5 +1,5 @@
 import "./home-aurora.css";
-import AuroraHero from "../components/AuroraHero";
+import Aurora from "../components/AuroraOriginal";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
@@ -147,7 +147,7 @@ const education = [
   return (
     <div className="flex flex-col items-center justify-center bg-white w-full">
       <section className="portfolio-hero relative isolate w-screen left-1/2 -translate-x-1/2 overflow-hidden flex flex-col items-center">
-        <AuroraHero />
+        <div className="portfolio-aurora-layer" aria-hidden="true"><Aurora colorStops={["#5227FF", "#7cff67", "#5227FF"]} direction="top" height={0.45} amplitude={1} blend={0.5} glow={0.6} scale={1} speed={1} brightness={1} layers={1} opacity={1} mouseInteraction intro lightMode={false} /></div>
         <div className="relative z-10 flex flex-col items-center w-full max-w-6xl px-4 pt-6 sm:pt-10">
       <span className="inline-block text-xs font-semibold tracking-widest text-blue-600 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 mb-5 sm:mb-6 uppercase">
         Open to New Opportunities
