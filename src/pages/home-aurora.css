@@ -1,5 +1,5 @@
 .portfolio-hero { background:linear-gradient(180deg,#fff 0%,#f9fcff 48%,#fff 100%); }
-.portfolio-aurora-canvas { position:absolute; inset:0; width:100%; height:100%; z-index:-1; pointer-events:none; opacity:.85; }
+.portfolio-aurora-layer { position:absolute; inset:0; z-index:-1; pointer-events:none; opacity:.72; } .portfolio-aurora-layer .aurora-container { width:100%; height:100%; } .portfolio-aurora-layer canvas { width:100%; height:100%; display:block; }
 .portfolio-headline { animation:portfolio-title-enter .75s ease-out both; }
 @keyframes portfolio-title-enter { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
 @media (prefers-reduced-motion:reduce) { .portfolio-headline { animation:none !important; } }
