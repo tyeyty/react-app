@@ -24,6 +24,13 @@ import BlogEditPage from "./pages/BlogEditPage";
 import WorksEditPage from "./pages/WorksEditPage";
 
 
+import { usePortfolioAdmin } from "./lib/portfolioAdmin";
+import type { ReactNode } from "react";
+function AdminOnly({children}: {children: ReactNode}) {
+  const admin = usePortfolioAdmin();
+  if (admin === null) return <div className="p-6">Loading...</div>;
+  return admin ? <>{children}</> : <Navigate to="/login" replace />;
+}
 function App() {
   return (
       <Router>
@@ -48,18 +55,18 @@ function App() {
             <Route path="/board" element={<BoardPage />}>
               <Route index element={<Navigate to="works" replace />} />
               <Route path="works" element={<WorksListPage />} />
-              <Route path="works/new" element={<WorksWritePage />} />
+              <Route path="works/new" element={<AdminOnly><WorksWritePage /></AdminOnly>} />
               <Route path="works/:id" element={<BoardDetailPage />} />
               <Route path="design" element={<DesignListPage />} />
               <Route path="design/:id" element={<DesignDetailPage />} />
             </Route>
 
             {/* Blog 라우트 - Board 바깥으로 분리 */}
-            <Route path="/board/works/:id/edit" element={<WorksEditPage />} />
+            <Route path="/board/works/:id/edit" element={<AdminOnly><WorksEditPage /></AdminOnly>} />
             <Route path="/board/blog" element={<BlogListPage />} />
-            <Route path="/board/blog/new" element={<BlogWritePage />} />
+            <Route path="/board/blog/new" element={<AdminOnly><BlogWritePage /></AdminOnly>} />
             <Route path="/board/blog/:id" element={<BlogDetailPage />} />
-            <Route path="/board/blog/:id/edit" element={<BlogEditPage />} />
+            <Route path="/board/blog/:id/edit" element={<AdminOnly><BlogEditPage /></AdminOnly>} />
           </Route>
         </Routes>
       </Router>

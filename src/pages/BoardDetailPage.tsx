@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 
+import { usePortfolioAdmin } from "../lib/portfolioAdmin";
+
 // HTML 태그를 안전하게 처리하는 함수
 const sanitizeHtml = (html: string): string => {
   // 기본적인 XSS 방지를 위한 간단한 처리
@@ -25,6 +27,7 @@ interface WorkItem {
 export default function BoardDetailPage() {
   const { id } = useParams();  
   const navigate = useNavigate();
+  const admin = usePortfolioAdmin();
   const location = useLocation();
   const [post, setPost] = useState<WorkItem | null>(null);
   const [loading, setLoading] = useState(true);
@@ -83,12 +86,12 @@ export default function BoardDetailPage() {
             ← Back to list
           </button>
 
-          <button
+          {admin && <button
             onClick={() => navigate(`/board/works/${id}/edit`)}
             className="text-sm text-gray-600 border px-3 py-1 rounded hover:bg-gray-100"
           >
             수정
-          </button>   
+          </button>}   
         </div>       
   
         <h1 className="text-2xl font-bold mb-2">{post.title}</h1>

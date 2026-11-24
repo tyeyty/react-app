@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import { Link } from "react-router-dom";
 
+import { usePortfolioAdmin } from "../lib/portfolioAdmin";
+
 interface WorkItem {
   id: number;
   title: string;
@@ -15,6 +17,7 @@ interface WorkItem {
 
 export default function WorksListPage() {
   const navigate = useNavigate();
+  const admin = usePortfolioAdmin();
   const [works, setWorks] = useState<WorkItem[]>([]);
 
   useEffect(() => {
@@ -37,12 +40,12 @@ export default function WorksListPage() {
     <div className="lg:w-[1100px]">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">개발 작업물</h2>
-        <button
+        {admin && <button
           onClick={() => navigate("/board/works/new")}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           글쓰기
-        </button>
+        </button>}
       </div>
 
       <div className="p-6">

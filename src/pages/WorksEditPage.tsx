@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 
+import { isPortfolioAdmin } from "../lib/portfolioAdmin";
+
 export default function WorksEditPage() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -48,7 +50,7 @@ export default function WorksEditPage() {
     e.preventDefault();
 
     const user = (await supabase.auth.getUser()).data.user;
-    if (!user) return alert("로그인이 필요합니다.");
+    if (!user || !isPortfolioAdmin(user)) return alert("관리자 로그인이 필요합니다.");
 
     let finalImageUrl = imageUrl;
 
@@ -74,7 +76,7 @@ export default function WorksEditPage() {
     const { error } = await supabase
       .from("works")
       .update({ title, content, image_url: finalImageUrl })
-      .eq("id", Number(id));
+      .eq("id", Number(id)).select("id").single();
 
     if (error) {
       console.error(error);

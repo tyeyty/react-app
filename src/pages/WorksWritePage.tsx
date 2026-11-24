@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabaseClient";
 
+import { isPortfolioAdmin } from "../lib/portfolioAdmin";
+
 export default function WorksWritePage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -18,7 +20,7 @@ export default function WorksWritePage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const user = (await supabase.auth.getUser()).data.user;
-    if (!user) return alert("로그인이 필요합니다.");
+    if (!user || !isPortfolioAdmin(user)) return alert("관리자 로그인이 필요합니다.");
 
     let imageUrl: string | null = null;
 
